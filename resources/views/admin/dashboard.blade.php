@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title','Dashbord Admin')
+@section('title','Dashbord Admin - Xylo Decoration')
 
 @section('container')
 

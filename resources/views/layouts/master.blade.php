@@ -95,9 +95,9 @@
                 const cat = category.replace(/ /g,"-");
 
                 if (category != '') {
-                    document.location.href = "{{ url('')}}/category/" + cat.toLowerCase() + "/";
+                    document.location.href = "{{ url('') }}/category/" + cat.toLowerCase() + "/";
                 } else {
-                    document.location.href = "{{ url('/products')}}";
+                    document.location.href = "{{ route('product')}}";
                 }
             });
             $("#typeSearch").on("change", function() {
@@ -106,9 +106,9 @@
                 const cat = category.replace(/ /g,"-");
 
                 if (type != '') {
-                    document.location.href = "{{ url('')}}/type/" + type + "/" +  cat.toLowerCase();
+                    document.location.href = "{{ url('') }}/type/" + type + "/" +  cat.toLowerCase();
                 } else {
-                    document.location.href = "{{ url('')}}/category/" + cat.toLowerCase() + "/";
+                    document.location.href = "{{ url('') }}/category/" + cat.toLowerCase() + "/";
                 }
             });
         });

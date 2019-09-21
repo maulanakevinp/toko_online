@@ -23,6 +23,31 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('admin.dashboard');
+    }
+
+    public function show()
+    {
+        return view('admin.show');
+    }
+
+    public function editProfile()
+    {
+        return view('admin.edit-profile');
+    }
+
+    public function updateProfile(Request $request)
+    {
+        # code...
+    }
+
+    public function editPassword()
+    {
+        return view('admin.edit-password');
+    }
+
+    public function updatePassword(Request $request)
+    {
+        # code...
     }
 }
