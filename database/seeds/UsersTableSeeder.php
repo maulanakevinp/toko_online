@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Traits\Timestamp;
 use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder
@@ -13,8 +14,9 @@ class UsersTableSeeder extends Seeder
     {
         DB::table('users')->insert([
             'name' => 'Administrator',
+            'photo' => 'admin.png',
             'email' => 'admin@gmail.com',
-            'password' => bcrypt('123123')
+            'password' => bcrypt('admin123')
         ]);
     }
 }

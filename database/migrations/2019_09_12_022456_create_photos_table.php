@@ -15,11 +15,11 @@ class CreatePhotosTable extends Migration
     {
         Schema::create('photos', function (Blueprint $table) {
             $table->string('photo1');
-            $table->string('photo2');
-            $table->string('photo3');
-            $table->string('photo4');
-            $table->string('photo5');
-            $table->string('photo6');
+            $table->string('photo2')->nullable();
+            $table->string('photo3')->nullable();
+            $table->string('photo4')->nullable();
+            $table->string('photo5')->nullable();
+            $table->string('photo6')->nullable();
 
             $table->primary('photo1');
         });
