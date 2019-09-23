@@ -2,10 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Testimonial;
 use Illuminate\Http\Request;
 
 class TestimonialController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +24,8 @@ class TestimonialController extends Controller
      */
     public function index()
     {
-        return view('testimonials.index');
+        $testimonials = Testimonial::all();
+        return view('testimonials.index', compact('testimonials'));
     }
 
     /**
@@ -38,17 +50,6 @@ class TestimonialController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -56,7 +57,8 @@ class TestimonialController extends Controller
      */
     public function edit($id)
     {
-        //
+        $testimonial = Testimonial::find($id);
+        return view('testimonials.edit', compact('testimonial'));
     }
 
     /**

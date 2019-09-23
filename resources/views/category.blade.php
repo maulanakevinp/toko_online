@@ -24,7 +24,6 @@
                                 <select class="form-control" name="category" id="categorySearch">
                                     <option value="">Pilih Kategori</option>
                                     @foreach ($categories as $category)
-
                                     @if ($category->category == $title)
                                     <option selected value="{{ $category->category }}">{{ $category->category }}</option>
                                     @else
@@ -36,8 +35,8 @@
                             <div class="filter-item mb-3">
                                 <select class="form-control" name="type" id="typeSearch">
                                     <option value="">Pilih Jenis</option>
-                                    @foreach ($types as $t)
-                                    <option value="{{ $t->id }}">{{ $t->type }}</option>
+                                    @foreach ($types as $type)
+                                    <option value="{{ $type->id }}">{{ $type->type }}</option>
                                     @endforeach
                                 </select>
                             </div>

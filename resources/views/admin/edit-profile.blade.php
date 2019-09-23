@@ -3,9 +3,69 @@
 
 @section('container')
 
-<!-- Page Heading -->
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Edit Profile</h1>
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card shadow h-100">
+                <div class="card-header">
+                    <h5 class="m-0 pt-1 font-weight-bold text-black-50">Edit Profile</h5>
+                </div>
+                <div class="card-body">
+                    <form action=" {{ route('update-profile', ['id' => Auth::user()->id]) }} " method="post" enctype="multipart/form-data">
+                        @method('patch')
+                        @csrf
+                        <div class="form-group row">
+                            <label for="email" class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="email" name="email" value=" {{ Auth::user()->email }} " readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-2 col-form-label">Full name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="name" name="name" value=" {{ Auth::user()->name }} ">
+                                @error('name')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-2">
+                                Picture
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <img src="{{ asset('img/profile/' . Auth::user()->photo) }}" class="img-thumbnail">
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="image" name="image">
+                                            <label class="custom-file-label" for="image">Choose file</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row justify-content-end">
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-success btn-block">
+                                    Edit
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+<!-- /.container-fluid -->
+
 
 @endsection

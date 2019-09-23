@@ -20,13 +20,20 @@
                 <select class="form-control" name="category" id="categorySearch">
                     <option value="">Choose Category</option>
                     @foreach ($categories as $category)
-                        <option value="{{ $category->category }}">{{ $category->category }}</option>
+                        @if ($category->category == $title)
+                            <option selected value="{{ $category->category }}">{{ $category->category }}</option>
+                        @else
+                            <option value="{{ $category->category }}">{{ $category->category }}</option>
+                        @endif
                     @endforeach
                 </select>
             </div>
             <div class="col-md-3 mb-3">
                 <select class="form-control" name="type" id="typeSearch">
                     <option value="">Choose Type</option>
+                    @foreach ($types as $type)
+                        <option value="{{ $type->id }}">{{ $type->type }}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="col-md-3 mb-3">

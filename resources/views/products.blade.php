@@ -29,12 +29,7 @@
                                 <select class="form-control" name="category" id="categorySearch">
                                     <option value="">Pilih Kategori</option>
                                     @foreach ($categories as $category)
-
-                                    @if (str_replace('-',' ',Request::segment(2)) == strtolower($category->category))
-                                    <option selected value="<?= $category->category ?>"><?= $category->category ?></option>
-                                    @else
-                                    <option value="<?= $category->category ?>"><?= $category->category ?></option>
-                                    @endif
+                                    <option value="{{ $category->category }}">{{ $category->category }}</option>
                                     @endforeach
                                 </select>
                             </div>

@@ -3,9 +3,55 @@
 
 @section('container')
 
-<!-- Page Heading -->
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Edit Password</h1>
+<!-- Begin Page Content -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card shadow h-100">
+                <div class="card-header">
+                    <h5 class="m-0 pt-1 font-weight-bold text-black-50">Edit Password </h5>
+                </div>
+                <div class="card-body">
+                    <form action=" {{ route('update-password', [ 'id' => Auth::user()->id ]) }} " method="post">
+                        @method('patch')
+                        @csrf
+                        <div class="form-group">
+                            <label for="current_password">Password</label>
+                            <input type="password" class="form-control" id="current_password" name="current_password">
+                            @error('current_password')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="new_password1">New Password</label>
+                            <input type="password" class="form-control" id="new_password1" name="new_password1">
+                            @error('new_password1')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="new_password2">Repeat Password</label>
+                            <input type="password" class="form-control" id="new_password2" name="new_password2">
+                            @error('new_password2')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success btn-block">Change Password</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+<!-- /.container-fluid -->
 
 @endsection

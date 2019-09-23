@@ -3,7 +3,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="background: url({{ asset('img/navbar/gambar-background-kayu-hd.jpg') }})">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('home') }}">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-chair"></i>
                 </div>
@@ -55,7 +55,7 @@
                         <h6 class="collapse-header">Custom Utilities:</h6>
                         <a class="collapse-item" href="{{ route('company') }}">Company</a>
                         <a class="collapse-item" href="{{ route('home-picture') }}">Home Picture</a>
-                        <a class="collapse-item" href="{{ route('testimonials') }}">Testimonial</a>
+                        <a class="collapse-item" href="{{ route('testimonials.index') }}">Testimonial</a>
                     </div>
                 </div>
             </li>
@@ -69,8 +69,8 @@
                 <div id="collapseProduct" class="collapse" aria-labelledby="headingProduct" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Products:</h6>
-                        <a class="collapse-item" href="{{ route('products') }}">Products</a>
-                        <a class="collapse-item" href="{{ route('categories') }}">Categories</a>
+                        <a class="collapse-item" href="{{ route('products.index') }}">Products</a>
+                        <a class="collapse-item" href="{{ route('categories.index') }}">Categories</a>
                     </div>
                 </div>
             </li>

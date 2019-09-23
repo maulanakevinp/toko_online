@@ -18,7 +18,17 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
+    <link rel="stylesheet" href="{{ asset('fonts/fontawesome-all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('fonts/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('fonts/simple-line-icons.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('fonts/fontawesome5-overrides.min.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
+    <link rel="stylesheet" href="{{ asset('css/Map-Clean.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/smoothproducts.css') }}">
     <link rel="stylesheet" href="{{ asset('css/Testimonials.css') }}">
+
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
     <link rel="icon" href="{{ asset('img/navbar/gambar-background-kayu-hd.jpg') }}">
 
@@ -104,6 +114,79 @@
     <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
 
+    <script>
+    $(document).ready(function() {
+        $(".custom-file-input").on("change", function() {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+        $("#category").on("change", function() {
+            const category_id = $(this).val();
+            const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            if (category_id != '') {
+                $.ajax({
+                    url: "{{ route('get-types') }}",
+                    type: 'post',
+                    data: {
+                        _token: CSRF_TOKEN,
+                        id: category_id
+                    },
+                    success: function(data) {
+                        $("#type").html(data);
+                    }
+                });
+            } else {
+                $("#type").html('<option value=""> Select Type </option>');
+            }
+        });
+        $("#categorySearch").on("change", function() {
+                const category = $(this).val();
+                const cat = category.replace(/ /g,"-");
+
+                if (category != '') {
+                    document.location.href = "{{ url('') }}/p/" + cat.toLowerCase();
+                } else {
+                    document.location.href = "{{ route('products.index')}}";
+                }
+            });
+            $("#typeSearch").on("change", function() {
+                const category = $("#categorySearch").val();
+                const type = $(this).val();
+                const cat = category.replace(/ /g,"-");
+
+                if (type != '') {
+                    document.location.href = "{{ url('') }}/p/" + type + "/" +  cat.toLowerCase();
+                } else {
+                    document.location.href = "{{ url('') }}/p/" + cat.toLowerCase();
+                }
+            });
+        $('.addTypeModal').on('click', function() {
+            $('#TypeModalLabel').html('Add New Type');
+            $('.modal-footer button[type=submit]').html('Add Type');
+        });
+        $('.editTypeModal').on('click', function() {
+            const id = $(this).data('id');
+            const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            $('#TypeModalLabel').html('Edit Type');
+            $('.modal-footer button[type=submit]').html('Edit Type');
+            $('#form').attr('action', "{{ url('types/') }}" + id + "/edit" );
+
+            $.ajax({
+                url: "{{ route('get-type') }}",
+                data: {
+                    _token: CSRF_TOKEN,
+                    id: id
+                },
+                method: 'post',
+                dataType: 'json',
+                success: function(data) {
+                    $('#type').val(data.type);
+                }
+            });
+
+        });
+    });
+    </script>
 </body>
 
 </html>
