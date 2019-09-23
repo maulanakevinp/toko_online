@@ -25,9 +25,36 @@ class UtilityController extends Controller
         return view('admin.company', ['company' => $company]);
     }
 
-    public function updateCompany(Request $request)
+    public function updateCompany(Request $request, $id)
     {
-        # code...
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'address' => 'required',
+            'phone_number' => 'required',
+            'whatsapp_number' => 'required',
+            'email' => 'required|email',
+            'maps' => 'required',
+            'testimonial' => 'required',
+        ]);
+
+        Company::where('id', $id)->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'bukalapak' => $request->bukalapak,
+            'tokopedia' => $request->tokopedia,
+            'olx' => $request->olx,
+            'whatsapp' => $request->whatsapp,
+            'line' => $request->line,
+            'address' => $request->address,
+            'phone_number' => $request->phone_number,
+            'whatsapp_number' => $request->whatsapp_number,
+            'email' => $request->email,
+            'maps' => $request->maps,
+            'testimonial' => $request->testimonial,
+        ]);
+
+        return redirect('/company')->with('success', 'Company has been updated');
     }
 
     public function homePicture()
