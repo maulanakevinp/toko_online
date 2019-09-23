@@ -17,7 +17,7 @@
                         @csrf
                         <div class="form-group">
                             <label for="current_password">Password</label>
-                            <input type="password" class="form-control" id="current_password" name="current_password">
+                            <input type="password" class="form-control  @error('current_password') is-invalid @enderror" id="current_password" name="current_password">
                             @error('current_password')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -26,7 +26,7 @@
                         </div>
                         <div class="form-group">
                             <label for="new_password1">New Password</label>
-                            <input type="password" class="form-control" id="new_password1" name="new_password1">
+                            <input type="password" class="form-control  @error('new_password1') is-invalid @enderror" id="new_password1" name="new_password1">
                             @error('new_password1')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -35,7 +35,7 @@
                         </div>
                         <div class="form-group">
                             <label for="new_password2">Repeat Password</label>
-                            <input type="password" class="form-control" id="new_password2" name="new_password2">
+                            <input type="password" class="form-control  @error('new_password2') is-invalid @enderror" id="new_password2" name="new_password2">
                             @error('new_password2')
                             <div class="invalid-feedback">
                                 {{ $message }}
