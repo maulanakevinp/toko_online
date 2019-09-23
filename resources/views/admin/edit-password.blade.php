@@ -25,18 +25,18 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="new_password1">New Password</label>
-                            <input type="password" class="form-control  @error('new_password1') is-invalid @enderror" id="new_password1" name="new_password1">
-                            @error('new_password1')
+                            <label for="new_password">New Password</label>
+                            <input type="password" class="form-control  @error('new_password') is-invalid @enderror" id="new_password" name="new_password">
+                            @error('new_password')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="new_password2">Repeat Password</label>
-                            <input type="password" class="form-control  @error('new_password2') is-invalid @enderror" id="new_password2" name="new_password2">
-                            @error('new_password2')
+                            <label for="confirm_password">Confirm Password</label>
+                            <input type="password" class="form-control  @error('confirm_password') is-invalid @enderror" id="confirm_password" name="confirm_password">
+                            @error('confirm_password')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>

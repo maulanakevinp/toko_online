@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -59,23 +60,23 @@ class AdminController extends Controller
     {
         $request->validate([
             'current_password' => 'required|min:6',
-            'new_password1' => 'required|min:6|required_with:password_confirmation|same:password_confirmation',
-            'new_password2' => 'required|min:6'
+            'new_password' => 'required|min:6|required_with:confirm_password|same:confirm_password',
+            'confirm_password' => 'required|min:6'
         ]);
 
         $user = User::find($id);
 
-        if ($request->current_password == $user->password) {
-            if ($request->new_password1 == $request->new_password2) {
+        if (Hash::check($request->current_password, $user->password)) {
+            if ($request->new_password == $request->confirm_password) {
                 User::where('id', $id)->update([
-                    'password' => $request->new_password2
+                    'password' => Hash::make($request->confirm_password)
                 ]);
                 return redirect('/my-profile')->with('success', 'Password has been updated');
             } else {
-                return redirect('/my-profile')->with('failed', 'Password has not been updated');
+                return redirect('/my-profile')->with('failed', 'Password not match, Password has not been updated');
             }
         } else {
-            return redirect('/my-profile')->with('failed', 'Password has not been updated');
+            return redirect('/my-profile')->with('failed', 'Current password not same, Password has not been updated');
         }
     }
 }

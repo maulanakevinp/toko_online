@@ -25,7 +25,7 @@ Route::get('/my-profile', 'AdminController@show')->name('my-profile');
 Route::get('/edit-profile', 'AdminController@editProfile')->name('edit-profile');
 Route::patch('/edit-profile/{id}', 'AdminController@updateProfile')->name('update-profile');
 Route::get('/edit-password', 'AdminController@editPassword')->name('edit-password');
-Route::patch('/edit-password/{id}', 'AdminController@updateProfile')->name('update-password');
+Route::patch('/edit-password/{id}', 'AdminController@updatePassword')->name('update-password');
 
 Route::get('/company', 'UtilityController@company')->name('company');
 Route::patch('/update-company/{id}', 'UtilityController@updateCompany')->name('update-company');
