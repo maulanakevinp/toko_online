@@ -17,11 +17,11 @@ class CreateCompaniesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->text('description');
-            $table->text('bukalapak');
-            $table->text('tokopedia');
-            $table->text('olx');
-            $table->text('whatsapp');
-            $table->text('line');
+            $table->text('bukalapak')->nullable();
+            $table->text('tokopedia')->nullable();
+            $table->text('olx')->nullable();
+            $table->text('whatsapp')->nullable();
+            $table->text('line')->nullable();
             $table->text('address');
             $table->string('phone_number', 16);
             $table->string('whatsapp_number', 16);
