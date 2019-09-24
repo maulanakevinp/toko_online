@@ -68,7 +68,7 @@
                 </a>
                 <div id="collapseProduct" class="collapse" aria-labelledby="headingProduct" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Products:</h6>
+                        <h6 class="collapse-header">Custom Business:</h6>
                         <a class="collapse-item" href="{{ route('products.index') }}">Products</a>
                         <a class="collapse-item" href="{{ route('categories.index') }}">Categories</a>
                     </div>
