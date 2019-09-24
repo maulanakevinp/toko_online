@@ -19,9 +19,9 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('type_id');
             $table->string('photo1');
             $table->integer('price');
-            $table->string('bukalapak');
-            $table->string('tokopedia');
-            $table->string('olx');
+            $table->string('bukalapak')->nullable();
+            $table->string('tokopedia')->nullable();
+            $table->string('olx')->nullable();
             $table->text('description');
             $table->timestamps();
             $table->softDeletes();

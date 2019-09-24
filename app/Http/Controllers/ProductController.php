@@ -7,6 +7,7 @@ use App\Category;
 use App\Type;
 use App\Photo;
 use Illuminate\Http\Request;
+use File;
 
 class ProductController extends Controller
 {
@@ -119,7 +120,49 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'price' => 'required|numeric',
+            'category' => 'required',
+            'type' => 'required',
+            'description' => 'required',
+            'photo1' => 'required',
+        ]);
+
+        $data_photo = array();
+        for ($i = 1; $i <= 6; $i++) {
+            $photo = 'photo' . $i;
+            $file = $request->file($photo);
+            if (!empty($request->$photo)) {
+                $file_name = time() . "_" . $file->getClientOriginalName();
+                $file->move('img/products', $file_name);
+                $data_photo['photo' . $i] = $file_name;
+            } else {
+                $data_photo['photo' . $i] = null;
+            }
+        }
+
+        Photo::create([
+            'photo1' => $data_photo['photo1'],
+            'photo2' => $data_photo['photo2'],
+            'photo3' => $data_photo['photo3'],
+            'photo4' => $data_photo['photo4'],
+            'photo5' => $data_photo['photo5'],
+            'photo6' => $data_photo['photo6'],
+        ]);
+
+        Product::create([
+            'name' => $request->name,
+            'type_id' => $request->type,
+            'photo1' => $data_photo['photo1'],
+            'price' => $request->price,
+            'bukalapak' => $request->bukalapak,
+            'tokopedia' => $request->price,
+            'olx' => $request->olx,
+            'description' => $request->description,
+        ]);
+
+        return redirect('/products')->with('success', 'Products has been created');
     }
 
     /**
@@ -133,11 +176,11 @@ class ProductController extends Controller
         $products = new Product;
         $product = $products->product($id);
         $categories = Category::all();
-        $photos = Photo::where('photo1', $product->photo1)->get();
+        $photo = Photo::where('photo1', $product->photo1)->first();
         return view('products.edit', [
             'product' => $product,
             'categories' => $categories,
-            'photos' => $photos
+            'photo' => $photo
         ]);
     }
 
@@ -150,7 +193,23 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'price' => 'required|numeric',
+            'category' => 'required',
+            'type' => 'required',
+            'description' => 'required',
+        ]);
+
+        Product::where('id', $id)->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'description' => $request->description,
+            'type_id' => $request->type,
+            'price' => $request->price,
+        ]);
+
+        return redirect('/products' . '/' . $id . '/edit')->with('success', 'Product has been updated');
     }
 
     /**
@@ -161,16 +220,58 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::find($id);
+        $photo1 = $product->photo1;
+        $photo = Photo::where('photo1', $photo1)->first();
+        for ($i = 2; $i <= 6; $i++) {
+            $p = 'photo' . $i;
+            if (!empty($photo->$p)) {
+                File::delete('img/products/' . $photo->$p);
+            }
+        }
+        File::delete('img/products/' . $photo1);
+
+        Product::destroy($id);
+        Photo::where('photo1', $photo1)->delete();
+        return redirect('/products')->with('success', 'Product has been deleted');
     }
 
-    public function updateImage($id, $photo)
+    public function updatePicture(Request $request, $id, $photo)
     {
-        # code...
+        $request->validate([
+            $photo => 'required'
+        ]);
+
+        $product = Product::find($id);
+        $old_photo = Photo::where('photo1', $product->photo1)->first();
+
+        $file = $request->file($photo);
+
+        if (!empty($old_photo->$photo)) {
+            File::delete('img/products/' . $old_photo->$photo);
+        }
+
+        $file_name = time() . "_" . $file->getClientOriginalName();
+
+        $file->move('img/products', $file_name);
+
+        Photo::where('photo1', $product->photo1)->update([
+            $photo => $file_name
+        ]);
+
+        return redirect('/products' . '/' . $id . '/edit')->with('success', 'Photo has been updated');
     }
 
-    public function deleteImage($id, $photo)
+    public function destroyPicture($id, $photo)
     {
-        # code...
+        $product = Product::find($id);
+        $old_photo = Photo::where('photo1', $product->photo1)->first();
+        File::delete('img/products/' . $old_photo->$photo);
+
+        Photo::where('photo1', $product->photo1)->update([
+            $photo => null
+        ]);
+
+        return redirect('/products' . '/' . $id . '/edit')->with('success', 'Photo has been deleted');
     }
 }

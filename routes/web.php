@@ -46,8 +46,8 @@ Route::get('/p/{category}', 'ProductController@category');
 Route::get('/p/{type}/{category}', 'ProductController@type');
 Route::post('/get-types', 'ProductController@getTypes')->name('get-types');
 Route::get('/get-types', 'ProductController@getTypes')->name('get-types');
-Route::get('/update-image-product/{id}/{photo}', 'ProductController@updateImage')->name('update-image-product');
-Route::delete('/delete-image-product/{id}/{photo}', 'ProductController@deleteImage')->name('delete-image-product');
+Route::patch('/update-product-picture/{id}/{photo}', 'ProductController@updatePicture')->name('update-product-picture');
+Route::delete('/destroy-product-picture/{id}/{photo}', 'ProductController@destroyPicture')->name('destroy-product-picture');
 
 Route::resource('/categories', 'CategoryController')->except([
     'show'
