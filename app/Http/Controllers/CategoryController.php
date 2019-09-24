@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Type;
 use Illuminate\Http\Request;
+use File;
 
 class CategoryController extends Controller
 {
@@ -37,6 +38,31 @@ class CategoryController extends Controller
     }
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'category' => 'required',
+            'photo' => 'required',
+        ]);
+
+        $file = $request->file('photo');
+        $file_name = time() . "_" . $file->getClientOriginalName();
+        $file->move('img/categories', $file_name);
+
+        Category::create([
+            'category' => $request->category,
+            'photo' => $file_name
+        ]);
+
+        return redirect('/categories')->with('success', 'Category has been created');
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -61,7 +87,30 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $category = Category::find($id);
+
+        $request->validate([
+            'category' => 'required',
+        ]);
+
+        $file = $request->file('photo');
+
+        if (!empty($file)) {
+            $file_name = time() . "_" . $file->getClientOriginalName();
+            File::delete('img/categories/' . $category->photo);
+            $file->move('img/categories', $file_name);
+
+            Category::where('id', $id)->update([
+                'category' => $request->category,
+                'photo' => $file_name
+            ]);
+        } else {
+            Category::where('id', $id)->update([
+                'category' => $request->category,
+            ]);
+        }
+
+        return redirect('/categories' . '/' . $id . '/edit')->with('success', 'Category has been updated');
     }
 
     /**
@@ -72,6 +121,10 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = Category::find($id);
+        File::delete('img/categories/' . $category->photo);
+        Category::destroy($id);
+
+        return redirect('/categories')->with('success', 'Category has been deleted');
     }
 }
