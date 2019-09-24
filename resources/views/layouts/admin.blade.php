@@ -162,14 +162,19 @@
             });
         $('.addTypeModal').on('click', function() {
             $('#TypeModalLabel').html('Add New Type');
+            const category = $(this).data('category');
             $('.modal-footer button[type=submit]').html('Add Type');
+            $('#form').attr('action', "{{ url('types') }}/" + category );
+            $('#method-type').val('post');
         });
         $('.editTypeModal').on('click', function() {
             const id = $(this).data('id');
+            const category = $(this).data('category');
             const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             $('#TypeModalLabel').html('Edit Type');
             $('.modal-footer button[type=submit]').html('Edit Type');
-            $('#form').attr('action', "{{ url('types/') }}" + id + "/edit" );
+            $('#form').attr('action', "{{ url('types') }}/" + id + "/" + category );
+            $('#method-type').val('patch');
 
             $.ajax({
                 url: "{{ route('get-type') }}",

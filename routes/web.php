@@ -53,10 +53,8 @@ Route::resource('/categories', 'CategoryController')->except([
     'show'
 ]);
 
-Route::resource('/types', 'CategoryController')->except([
-    'show', 'index', 'create', 'store'
-]);
+Route::post('/types/{category}', 'TypeController@store')->name('types.store');
+Route::patch('/types/{id}/{category}', 'TypeController@update')->name('types.update');
+Route::delete('/types/{id}/{category}', 'TypeController@destroy')->name('types.destroy');
 Route::post('/get-type', 'CategoryController@getType')->name('get-type');
 Route::get('/get-type', 'CategoryController@getType')->name('get-type');
-
-Route::post('/types/{category}', 'TypeController@store')->name('types.store');

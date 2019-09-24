@@ -63,7 +63,7 @@
             </form>
         </div>
         <div class="col-lg-6">
-            <a href="" class="btn btn-primary mb-3 addTypeModal" data-toggle="modal" data-target="#TypeModal">Add New Type</a>
+            <a href="" class="btn btn-primary mb-3 addTypeModal" data-toggle="modal" data-target="#TypeModal" data-category="{{ $category->id }}">Add New Type</a>
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -83,7 +83,7 @@
                             </td>
                             <td>
                                 <a href="" class="badge badge-success mb-3 editTypeModal" data-toggle="modal" data-target="#TypeModal" data-id="{{ $type->id }}" data-category="{{ $category->id }}">Edit</a>
-                                <form action="{{ route('types.destroy' , $type->id ) }}" method="post" class="d-inline">
+                                <form action="{{ route('types.destroy' , ['id' => $type->id, 'category' => $category->id ]) }}" method="post" class="d-inline">
                                     @method('delete')
                                     @csrf
                                     <button class="badge badge-danger" type="submit" onclick="return confirm('Are you sure want to DELETE this type ?');">
@@ -112,6 +112,7 @@
             </div>
             <form id="form" action="{{ route('types.store' , $category->id) }}" method="post">
                 @csrf
+                <input id="method-type" type="hidden" name="_method" value="post">
                 <div class="modal-body">
                     <div class="form-group">
                         <input type="text" class="form-control" id="type" name="type" placeholder="Type Name" autocomplete="off">
