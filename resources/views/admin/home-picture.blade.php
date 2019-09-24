@@ -11,9 +11,14 @@
         <h1 class="h3 mb-0 text-gray-800">Home Picture</h1>
     </div>
 
-    <!-- Page Error -->
+    <!-- Notification -->
     <div class="row">
         <div class="col-lg">
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
         </div>
     </div>
 
@@ -22,7 +27,7 @@
             <div class="card">
                 <div class="card-body">
                     <img class="mb-1" src="{{ asset('img/carousel/'. $company->photo1) }}" alt="{{ $company->photo1 }}" width="100%" height="250px">
-                    <form action=" {{ route('update-home-picture' ,['id' => $company->photo1 , 'photo' => $company->photo1]) }} " method="post" enctype="multipart/form-data">
+                    <form action=" {{ route('update-home-picture' ,['id' => $company->photo1 , 'photo' => 'photo1']) }} " method="post" enctype="multipart/form-data">
                         @method('patch')
                         @csrf
                         <div class="input-group">
@@ -46,7 +51,7 @@
                         <div class="card-body">
                             @if (!empty($photo['photo' . $i]))
                                 <img class="mb-1" src="{{ asset('img/carousel/'. $photo['photo' . $i]) }}" alt="{{ $photo['photo' . $i] }}" width="100%" height="250px">
-                                <form action="{{ route('destroy-home-picture' , ['id' => $company->photo1, 'photo' => $photo['photo'.$i]]) }}" method="post">
+                                <form action="{{ route('destroy-home-picture' , ['id' => $company->photo1, 'photo' => 'photo'.$i]) }}" method="post">
                                     @method('delete')
                                     @csrf
                                     <button type="submit" class="btn btn-danger btn-block mb-1" onclick="return confirm('Are you sure want to DELETE this picture ?');">Delete Photo</button>
@@ -54,12 +59,12 @@
                             @else
                                 <img class="mb-1" src="{{ asset('img/noimage.jpg') }}" width="100%" height="250px">
                             @endif
-                            <form action=" {{ route('update-home-picture', ['id' => $company->photo1 , 'photo' => $photo['photo'.$i]]) }} " method="post" enctype="multipart/form-data">
+                            <form action=" {{ route('update-home-picture', ['id' => $company->photo1 , 'photo' => 'photo'.$i]) }} " method="post" enctype="multipart/form-data">
                                 @method('patch')
                                 @csrf
                                 <div class="input-group">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="photo{{ $i }}" name="photo{{ $i }}" aria-describedby="photo{{ $i }}" required>
+                                        <input type="file" class="custom-file-input " id="photo{{ $i }}" name="photo{{ $i }}" aria-describedby="photo{{ $i }}" required>
                                         <label class="custom-file-label" for="photo{{ $i }}">Choose photo</label>
                                     </div>
                                     <div class="input-group-append">

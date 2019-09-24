@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Company;
 use App\Photo;
 use Illuminate\Http\Request;
+use File;
 
 class UtilityController extends Controller
 {
@@ -66,8 +67,36 @@ class UtilityController extends Controller
         return view('admin.home-picture', ['photos' => $photos, 'company' => $company]);
     }
 
-    public function updateHomePicture(Request $request)
+    public function updateHomePicture(Request $request, $id, $photo)
     {
-        # code...
+        $old_photo = Photo::where('photo1', $id)->first();
+
+        $file = $request->file($photo);
+
+        if (!empty($old_photo->$photo)) {
+            File::delete('img/carousel/' . $old_photo->$photo);
+        }
+
+        $file_name = time() . "_" . $file->getClientOriginalName();
+
+        $file->move('img/carousel', $file_name);
+
+        Photo::where('photo1', $id)->update([
+            $photo => $file_name
+        ]);
+
+        return redirect('/home-picture')->with('success', 'Photo has been updated');
+    }
+
+    public function destroyHomePicture($id, $photo)
+    {
+        $old_photo = Photo::where('photo1', $id)->first();
+        File::delete('img/carousel/' . $old_photo->$photo);
+
+        Photo::where('photo1', $id)->update([
+            $photo => null
+        ]);
+
+        return redirect('/home-picture')->with('success', 'Photo has been deleted');
     }
 }
