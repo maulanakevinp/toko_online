@@ -23,7 +23,7 @@ class PhotoSeeder extends Seeder
 
         DB::table('photos')->insert([
             'photo1' => '259b26483c038f66161b7aeb0ac6d5b9.jpg',
-            'photo2' => 'c4b2dc6cc00bc79ebd06b30571f758ad.png',
+            'photo2' => '1569325957_conference-room-768441_1280.jpg',
             'photo3' => '5929079b3e37ffc99efe4a0b5e3332d1.png'
         ]);
 
