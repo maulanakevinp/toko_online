@@ -35,7 +35,7 @@ Route::patch('/update-home-picture/{id}/{photo}', 'UtilityController@updateHomeP
 Route::delete('/destroy-home-picture/{id}/{photo}', 'UtilityController@destroyHomePicture')->name('destroy-home-picture');
 
 Route::resource('/testimonials', 'TestimonialController')->except([
-    'show'
+    'show', 'create'
 ]);
 
 Route::resource('/products', 'ProductController')->except([

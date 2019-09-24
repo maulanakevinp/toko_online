@@ -34,12 +34,12 @@
                             <label for="picture">Picture</label>
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <img src="{{ asset('img/testimonial/' . $testimonial->photo) }}" class="rounded-circle">
+                                    <img src="{{ asset('img/testimonial/' . $testimonial->photo) }}" class="img-fluid rounded-circle">
                                 </div>
                                 <div class="col-sm-9">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="image" name="image">
-                                        <label class="custom-file-label" for="image">Choose file</label>
+                                        <input type="file" class="custom-file-input" id="photo" name="photo">
+                                        <label class="custom-file-label" for="photo">Choose file</label>
                                     </div>
                                 </div>
                             </div>

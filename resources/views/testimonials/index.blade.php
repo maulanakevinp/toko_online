@@ -9,13 +9,34 @@
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Testimonials</h1>
+            <a href="" class="btn btn-primary mt-3 mb-0" data-toggle="modal" data-target="#newTestinonialModal">Add New Testinonial</a>
+
         </div>
 
         <div class="row">
             <div class="col-lg">
-                <!-- Error Handling -->
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
 
-                <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newTestinonialModal">Add New Testinonial</a>
+                @if (session('failed'))
+                    <div class="alert alert-danger">
+                        {{ session('failed') }}
+                    </div>
+                @endif
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
             </div>
         </div>
         <div class="row people">
@@ -51,6 +72,7 @@
                 </button>
             </div>
             <form action="{{ route('testimonials.store') }}" method="post" enctype="multipart/form-data">
+                @csrf
                 <div class="modal-body">
                     <div class="form-group">
                         <input type="text" class="form-control" id="name" name="name" placeholder="Name" autocomplete="off" value="{{ old('name') }}">

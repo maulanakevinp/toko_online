@@ -1,6 +1,5 @@
 <?php
 
-use Carbon\Traits\Timestamp;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 

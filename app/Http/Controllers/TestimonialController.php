@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Testimonial;
 use Illuminate\Http\Request;
+use File;
 
 class TestimonialController extends Controller
 {
@@ -29,16 +30,6 @@ class TestimonialController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -46,7 +37,23 @@ class TestimonialController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'photo' => 'required',
+        ]);
+
+        $file = $request->file('photo');
+        $file_name = time() . "_" . $file->getClientOriginalName();
+        $file->move('img/testimonial', $file_name);
+
+        Testimonial::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'photo' => $file_name
+        ]);
+
+        return redirect('/testimonials')->with('success', 'Testimonial has been created');
     }
 
     /**
@@ -70,7 +77,33 @@ class TestimonialController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $testimonial = Testimonial::find($id);
+
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+        ]);
+
+        $file = $request->file('photo');
+
+        if (!empty($file)) {
+            $file_name = time() . "_" . $file->getClientOriginalName();
+            File::delete('img/testimonial/' . $testimonial->photo);
+            $file->move('img/testimonial', $file_name);
+
+            Testimonial::where('id', $id)->update([
+                'name' => $request->name,
+                'description' => $request->description,
+                'photo' => $file_name
+            ]);
+        } else {
+            Testimonial::where('id', $id)->update([
+                'name' => $request->name,
+                'description' => $request->description,
+            ]);
+        }
+
+        return redirect('/testimonials')->with('success', 'Testimonial has been updated');
     }
 
     /**
@@ -81,6 +114,10 @@ class TestimonialController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $testimonial = Testimonial::find($id);
+        File::delete('img/testimonial/' . $testimonial->photo);
+        Testimonial::destroy($id);
+
+        return redirect('/testimonials')->with('success', 'Testimonial has been deleted');
     }
 }
