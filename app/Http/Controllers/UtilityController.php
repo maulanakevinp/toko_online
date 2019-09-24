@@ -62,9 +62,9 @@ class UtilityController extends Controller
     {
         $company = Company::find(1);
 
-        $photos = Photo::where('photo1', $company->photo1)->get();
+        $photo = Photo::where('photo1', $company->photo1)->first();
 
-        return view('admin.home-picture', ['photos' => $photos, 'company' => $company]);
+        return view('admin.home-picture', ['photo' => $photo, 'company' => $company]);
     }
 
     public function updateHomePicture(Request $request, $id, $photo)
