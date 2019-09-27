@@ -69,9 +69,13 @@ Edit Product - Xylo Decoration
                             <div class="form-group col-md-6">
                                 <label for="category">Category</label> <label class="text-danger">*</label>
                                 <select id="category" name="category" class="form-control">
-                                    <option value=" {{ $product->category_id }} ">{{ $product->category }}</option>
+                                    <option value="">{{ __('Choose Category') }}</option>
                                     @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->category }}</option>
+                                    @if($product->category_id == $category->id)
+                                        <option selected="selected" value="{{ $category->id }}">{{ $category->category }}</option>
+                                    @else
+                                        <option value="{{ $category->id }}">{{ $category->category }}</option>
+                                    @endif
                                     @endforeach
                                 </select>
                                 @error('category')
@@ -83,7 +87,7 @@ Edit Product - Xylo Decoration
                             <div class="form-group col-md-6">
                                 <label for="type">Type</label> <label class="text-danger">*</label>
                                 <select id="type" name="type" class="form-control">
-                                    <option value=" {{ $product->type_id }} "> {{ $product->type }} </option>
+                                    <option selected="selected" value="{{ $product->type_id }}">{{ $product->type }}</option>
                                 </select>
                                 @error('type')
                                 <div class="invalid-feedback">
