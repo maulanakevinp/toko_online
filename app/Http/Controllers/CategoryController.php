@@ -47,7 +47,7 @@ class CategoryController extends Controller
     {
         $request->validate([
             'category' => 'required',
-            'photo' => 'required',
+            'photo' => 'required|image|mimes:jpg,jpeg,png,bmp|max:2048',
         ]);
 
         $file = $request->file('photo');
@@ -91,6 +91,7 @@ class CategoryController extends Controller
 
         $request->validate([
             'category' => 'required',
+            'photo' => 'image|mimes:jpg,jpeg,png,bmp|max:2048'
         ]);
 
         $file = $request->file('photo');

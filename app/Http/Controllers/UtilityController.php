@@ -69,6 +69,10 @@ class UtilityController extends Controller
 
     public function updateHomePicture(Request $request, $id, $photo)
     {
+        $request->validate([
+            $photo => 'required|image|mimes:jpg,jpeg,png,bmp|max:2048'
+        ]);
+
         $old_photo = Photo::where('photo1', $id)->first();
 
         $file = $request->file($photo);

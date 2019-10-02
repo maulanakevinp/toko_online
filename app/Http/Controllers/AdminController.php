@@ -43,7 +43,8 @@ class AdminController extends Controller
     {
         $user = User::find($id);
         $request->validate([
-            'name' => 'required'
+            'name' => 'required',
+            'photo' => 'image|mimes:jpg,jpeg,png,bmp|max:2048'
         ]);
 
         $file = $request->file('image');
