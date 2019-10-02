@@ -45,7 +45,7 @@ class TestimonialController extends Controller
 
         $file = $request->file('photo');
         $file_name = time() . "_" . $file->getClientOriginalName();
-        $file->move('img/testimonial', $file_name);
+        $file->move(public_path('img/testimonial'), $file_name);
 
         Testimonial::create([
             'name' => $request->name,
@@ -88,8 +88,8 @@ class TestimonialController extends Controller
 
         if (!empty($file)) {
             $file_name = time() . "_" . $file->getClientOriginalName();
-            File::delete('img/testimonial/' . $testimonial->photo);
-            $file->move('img/testimonial', $file_name);
+            File::delete(public_path('img/testimonial/' . $testimonial->photo));
+            $file->move(public_path('img/testimonial'), $file_name);
 
             Testimonial::where('id', $id)->update([
                 'name' => $request->name,
@@ -115,7 +115,7 @@ class TestimonialController extends Controller
     public function destroy($id)
     {
         $testimonial = Testimonial::find($id);
-        File::delete('img/testimonial/' . $testimonial->photo);
+        File::delete(public_path('img/testimonial/' . $testimonial->photo));
         Testimonial::destroy($id);
 
         return redirect('/testimonials')->with('success', 'Testimonial has been deleted');

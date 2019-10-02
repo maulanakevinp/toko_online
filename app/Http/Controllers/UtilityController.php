@@ -74,12 +74,12 @@ class UtilityController extends Controller
         $file = $request->file($photo);
 
         if (!empty($old_photo->$photo)) {
-            File::delete('img/carousel/' . $old_photo->$photo);
+            File::delete(public_path('img/carousel/' . $old_photo->$photo));
         }
 
         $file_name = time() . "_" . $file->getClientOriginalName();
 
-        $file->move('img/carousel', $file_name);
+        $file->move(public_path('img/carousel'), $file_name);
 
         Photo::where('photo1', $id)->update([
             $photo => $file_name
@@ -91,7 +91,7 @@ class UtilityController extends Controller
     public function destroyHomePicture($id, $photo)
     {
         $old_photo = Photo::where('photo1', $id)->first();
-        File::delete('img/carousel/' . $old_photo->$photo);
+        File::delete(public_path('img/carousel/' . $old_photo->$photo));
 
         Photo::where('photo1', $id)->update([
             $photo => null

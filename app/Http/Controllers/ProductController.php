@@ -135,7 +135,7 @@ class ProductController extends Controller
             $file = $request->file($photo);
             if (!empty($request->$photo)) {
                 $file_name = time() . "_" . $file->getClientOriginalName();
-                $file->move('img/products', $file_name);
+                $file->move(public_path('img/products'), $file_name);
                 $data_photo['photo' . $i] = $file_name;
             } else {
                 $data_photo['photo' . $i] = null;
@@ -226,10 +226,10 @@ class ProductController extends Controller
         for ($i = 2; $i <= 6; $i++) {
             $p = 'photo' . $i;
             if (!empty($photo->$p)) {
-                File::delete('img/products/' . $photo->$p);
+                File::delete(public_path('img/products/' . $photo->$p));
             }
         }
-        File::delete('img/products/' . $photo1);
+        File::delete(public_path('img/products/' . $photo1));
 
         Product::destroy($id);
         Photo::where('photo1', $photo1)->delete();
@@ -248,12 +248,12 @@ class ProductController extends Controller
         $file = $request->file($photo);
 
         if (!empty($old_photo->$photo)) {
-            File::delete('img/products/' . $old_photo->$photo);
+            File::delete(public_path('img/products/' . $old_photo->$photo));
         }
 
         $file_name = time() . "_" . $file->getClientOriginalName();
 
-        $file->move('img/products', $file_name);
+        $file->move(public_path('img/products'), $file_name);
 
         Photo::where('photo1', $product->photo1)->update([
             $photo => $file_name
@@ -266,7 +266,7 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         $old_photo = Photo::where('photo1', $product->photo1)->first();
-        File::delete('img/products/' . $old_photo->$photo);
+        File::delete(public_path('img/products/' . $old_photo->$photo));
 
         Photo::where('photo1', $product->photo1)->update([
             $photo => null

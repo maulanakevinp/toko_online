@@ -52,7 +52,7 @@ class CategoryController extends Controller
 
         $file = $request->file('photo');
         $file_name = time() . "_" . $file->getClientOriginalName();
-        $file->move('img/categories', $file_name);
+        $file->move(public_path('img/categories'), $file_name);
 
         Category::create([
             'category' => $request->category,
@@ -97,8 +97,8 @@ class CategoryController extends Controller
 
         if (!empty($file)) {
             $file_name = time() . "_" . $file->getClientOriginalName();
-            File::delete('img/categories/' . $category->photo);
-            $file->move('img/categories', $file_name);
+            $file->move(public_path('img/categories'), $file_name);
+            File::delete(public_path('img/categories/' . $category->photo));
 
             Category::where('id', $id)->update([
                 'category' => $request->category,
@@ -122,7 +122,7 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $category = Category::find($id);
-        File::delete('img/categories/' . $category->photo);
+        File::delete(public_path('img/categories/' . $category->photo));
         Category::destroy($id);
 
         return redirect('/categories')->with('success', 'Category has been deleted');
