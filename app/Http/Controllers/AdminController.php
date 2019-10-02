@@ -44,14 +44,14 @@ class AdminController extends Controller
         $user = User::find($id);
         $request->validate([
             'name' => 'required',
-            'photo' => 'image|mimes:jpg,jpeg,png,bmp|max:2048'
+            'image' => 'image|mimes:jpeg,png,gif,webp|max:2048'
         ]);
 
         $file = $request->file('image');
 
         if (!empty($file)) {
             $file_name = time() . "_" . $file->getClientOriginalName();
-            $file->move(public_path('img/products'), $file_name);
+            $file->move(public_path('img/profile'), $file_name);
             File::delete(public_path('img/profile/' . $user->photo));
             User::where('id', $id)->update([
                 'name' => $request->name,

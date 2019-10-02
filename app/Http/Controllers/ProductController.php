@@ -126,12 +126,12 @@ class ProductController extends Controller
             'category' => 'required',
             'type' => 'required',
             'description' => 'required',
-            'photo1' => 'required|image|mimes:jpg,jpeg,png,bmp|max:2048',
-            'photo2' => 'image|mimes:jpg,jpeg,png,bmp|max:2048',
-            'photo3' => 'image|mimes:jpg,jpeg,png,bmp|max:2048',
-            'photo4' => 'image|mimes:jpg,jpeg,png,bmp|max:2048',
-            'photo5' => 'image|mimes:jpg,jpeg,png,bmp|max:2048',
-            'photo6' => 'image|mimes:jpg,jpeg,png,bmp|max:2048',
+            'photo1' => 'required|image|mimes:jpeg,png,gif,webp|max:2048',
+            'photo2' => 'image|mimes:jpeg,png,gif,webp|max:2048',
+            'photo3' => 'image|mimes:jpeg,png,gif,webp|max:2048',
+            'photo4' => 'image|mimes:jpeg,png,gif,webp|max:2048',
+            'photo5' => 'image|mimes:jpeg,png,gif,webp|max:2048',
+            'photo6' => 'image|mimes:jpeg,png,gif,webp|max:2048',
         ]);
 
         $data_photo = array();
@@ -244,7 +244,7 @@ class ProductController extends Controller
     public function updatePicture(Request $request, $id, $photo)
     {
         $request->validate([
-            $photo => 'required|image|mimes:jpg,jpeg,png,bmp|max:2048'
+            $photo => 'required|image|mimes:jpeg,png,gif,webp|max:2048'
         ]);
 
         $product = Product::find($id);
