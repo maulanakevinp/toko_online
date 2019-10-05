@@ -19,9 +19,9 @@ Bagi yang sudah memiliki composer silahkan ikuti tutor dibawah ini
 - Kemudian klik Clone
 - Tunggu sampai proses clone selesai
 - Buka folder porject yang sudah di clone melalui terminal
-- Lakukan update dependecies ketik
+- Lakukan composer install ketik
 ```terminal
-composer update -vvv
+composer install
 ```
 - Tunggu sampai proses selesai
 - Buat database baru di phpmyadmin anda beri nama sesuka hati anda
