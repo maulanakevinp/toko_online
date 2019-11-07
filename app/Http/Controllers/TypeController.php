@@ -35,7 +35,8 @@ class TypeController extends Controller
             'type' => $request->type
         ]);
 
-        return redirect('/categories' . '/' . $category . '/edit')->with('success', 'Type has been created');
+        Alert::success('Tipe berhasil ditambahkan', 'berhasil');
+        return redirect()->back();
     }
 
     /**
@@ -51,11 +52,10 @@ class TypeController extends Controller
             'type' => 'required'
         ]);
 
-        Type::where('id', $id)->update([
-            'type' => $request->type
-        ]);
+        Type::where('id', $id)->update(['type' => $request->type]);
 
-        return redirect('/categories' . '/' . $category . '/edit')->with('success', 'Type has been updated');
+        Alert::success('Tipe berhasil diperbarui', 'berhasil');
+        return redirect()->back();
     }
 
     /**
@@ -67,6 +67,7 @@ class TypeController extends Controller
     public function destroy($id, $category)
     {
         Type::destroy($id);
-        return redirect('/categories' . '/' . $category . '/edit')->with('success', 'Type has been deleted');
+        Alert::success('Tipe berhasil dihapus', 'berhasil');
+        return redirect()->back();
     }
 }

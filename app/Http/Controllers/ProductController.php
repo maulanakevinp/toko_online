@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Product;
 use App\Category;
 use App\Type;
-use App\Photo;
+use App\Image;
+use App\Rules\uploadImage;
 use Illuminate\Http\Request;
 use File;
+use Alert;
 
 class ProductController extends Controller
 {
@@ -28,14 +30,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $title = 'Products';
+        $title = 'Bisnis';
+        $subtitle = 'Produk';
         $categories = Category::all();
         $products = Product::paginate(15);
-        return view('products.index', [
-            'title' => $title,
-            'categories' => $categories,
-            'products' => $products
-        ]);
+        return view('products.index', compact('title','subtitle','categories','products'));
     }
 
     public function search(Request $request)
@@ -43,13 +42,10 @@ class ProductController extends Controller
         $keyword = $request->keyword;
         $categories = Category::all();
         $products = Product::where('name', 'like', '%' . $keyword . '%')->paginate(15);
-        $title = 'Products';
+        $title = 'Bisnis';
+        $subtitle = 'Cari Produk';
 
-        return view('products.index', [
-            'title' => $title,
-            'categories' => $categories,
-            'products' => $products
-        ]);
+        return view('products.index', compact('title','subtitle', 'categories', 'products'));
     }
 
     public function category($cat)
@@ -57,17 +53,14 @@ class ProductController extends Controller
         $cat = str_replace('-', ' ', $cat);
         $categories = Category::all();
         $category = Category::where('category', $cat)->first();
-        $product = new Product;
-        $products = $product->category($category->id);
+        $products = Product::whereHas('type',function($q) use ($category){
+            $q->whereCategoryId($category->id);
+        })->paginate(15);
         $types = Type::where('category_id', $category->id)->get();
-        $title = $category->category;
+        $subtitle = $category->category;
+        $title = 'Bisnis';
 
-        return view('products.category', [
-            'title' => $title,
-            'types' => $types,
-            'categories' => $categories,
-            'products' => $products
-        ]);
+        return view('products.category', compact('title','subtitle', 'categories', 'products','types'));
     }
 
     public function type($id, $cat)
@@ -78,14 +71,9 @@ class ProductController extends Controller
         $products = Product::where('type_id', $id)->paginate(15);
         $types = Type::where('category_id', $category->id)->get();
         $type = Type::find($id);
-        $title = $type->type;
-
-        return view('products.type', [
-            'title' => $title,
-            'types' => $types,
-            'categories' => $categories,
-            'products' => $products
-        ]);
+        $subtitle = $type->type;
+        $title = 'Bisnis';
+        return view('products.type', compact('title','subtitle', 'categories', 'products', 'types'));
     }
 
     public function getTypes(Request $request)
@@ -106,10 +94,9 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $title = 'Bisnis';
         $categories = Category::all();
-        return view('products.create', [
-            'categories' => $categories,
-        ]);
+        return view('products.create', compact('categories','title'));
     }
 
     /**
@@ -121,53 +108,33 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'price' => 'required|numeric',
-            'category' => 'required',
-            'type' => 'required',
-            'description' => 'required',
-            'photo1' => 'required|image|mimes:jpeg,png,gif,webp|max:2048',
-            'photo2' => 'image|mimes:jpeg,png,gif,webp|max:2048',
-            'photo3' => 'image|mimes:jpeg,png,gif,webp|max:2048',
-            'photo4' => 'image|mimes:jpeg,png,gif,webp|max:2048',
-            'photo5' => 'image|mimes:jpeg,png,gif,webp|max:2048',
-            'photo6' => 'image|mimes:jpeg,png,gif,webp|max:2048',
+            'name'          => 'required',
+            'price'         => 'required|numeric',
+            'category'      => 'required',
+            'type'          => 'required',
+            'description'   => 'required',
+            'images'        => ['required', new uploadImage($request, 'images')]
+        ]);
+        
+        $product = Product::create([
+            'name'          => $request->name,
+            'type_id'       => $request->type,
+            'price'         => $request->price,
+            'bukalapak'     => $request->bukalapak,
+            'tokopedia'     => $request->price,
+            'olx'           => $request->olx,
+            'description'   => $request->description,
+            'specification' => $request->specification,
         ]);
 
-        $data_photo = array();
-        for ($i = 1; $i <= 6; $i++) {
-            $photo = 'photo' . $i;
-            $file = $request->file($photo);
-            if (!empty($request->$photo)) {
-                $file_name = time() . "_" . $file->getClientOriginalName();
-                $file->move(public_path('img/products'), $file_name);
-                $data_photo['photo' . $i] = $file_name;
-            } else {
-                $data_photo['photo' . $i] = null;
-            }
+        foreach ($request->images as $img) {
+            $image = new Image;
+            $image->product_id = $product->id;
+            $image->image = $this->setImageUpload($img,'img/products');
+            $image->save();
         }
-
-        Photo::create([
-            'photo1' => $data_photo['photo1'],
-            'photo2' => $data_photo['photo2'],
-            'photo3' => $data_photo['photo3'],
-            'photo4' => $data_photo['photo4'],
-            'photo5' => $data_photo['photo5'],
-            'photo6' => $data_photo['photo6'],
-        ]);
-
-        Product::create([
-            'name' => $request->name,
-            'type_id' => $request->type,
-            'photo1' => $data_photo['photo1'],
-            'price' => $request->price,
-            'bukalapak' => $request->bukalapak,
-            'tokopedia' => $request->price,
-            'olx' => $request->olx,
-            'description' => $request->description,
-        ]);
-
-        return redirect('/products')->with('success', 'Products has been created');
+        Alert::success('Produk berhasil ditambahkan', 'berhasil');
+        return redirect('/products');
     }
 
     /**
@@ -178,15 +145,11 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
+        $title = 'Bisnis';
         $products = new Product;
-        $product = $products->product($id);
+        $product = $products->findOrFail($id);
         $categories = Category::all();
-        $photo = Photo::where('photo1', $product->photo1)->first();
-        return view('products.edit', [
-            'product' => $product,
-            'categories' => $categories,
-            'photo' => $photo
-        ]);
+        return view('products.edit', compact('title','product','categories','title'));
     }
 
     /**
@@ -214,7 +177,8 @@ class ProductController extends Controller
             'price' => $request->price,
         ]);
 
-        return redirect('/products' . '/' . $id . '/edit')->with('success', 'Product has been updated');
+        Alert::success('Produk berhasil diperbarui', 'berhasil');
+        return redirect()->back();
     }
 
     /**
@@ -226,57 +190,44 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::find($id);
-        $photo1 = $product->photo1;
-        $photo = Photo::where('photo1', $photo1)->first();
-        for ($i = 2; $i <= 6; $i++) {
-            $p = 'photo' . $i;
-            if (!empty($photo->$p)) {
-                File::delete(public_path('img/products/' . $photo->$p));
-            }
+
+        foreach ($product->images as $image) {
+            File::delete(public_path('img/products/' . $image->image));
         }
-        File::delete(public_path('img/products/' . $photo1));
 
         Product::destroy($id);
-        Photo::where('photo1', $photo1)->delete();
-        return redirect('/products')->with('success', 'Product has been deleted');
+        Alert::success('Produk berhasil dihapus', 'berhasil');
+        return redirect('/products');
     }
 
-    public function updatePicture(Request $request, $id, $photo)
+    public function addProductImage(Request $request, $id)
     {
-        $request->validate([
-            $photo => 'required|image|mimes:jpeg,png,gif,webp|max:2048'
-        ]);
-
-        $product = Product::find($id);
-        $old_photo = Photo::where('photo1', $product->photo1)->first();
-
-        $file = $request->file($photo);
-
-        if (!empty($old_photo->$photo)) {
-            File::delete(public_path('img/products/' . $old_photo->$photo));
-        }
-
-        $file_name = time() . "_" . $file->getClientOriginalName();
-
-        $file->move(public_path('img/products'), $file_name);
-
-        Photo::where('photo1', $product->photo1)->update([
-            $photo => $file_name
-        ]);
-
-        return redirect('/products' . '/' . $id . '/edit')->with('success', 'Photo has been updated');
+        $request->validate(['image' => ['required', 'image', 'mimes:jpeg,png', 'max:2048']]);
+        $image = new Image;
+        $image->image = $this->setImageUpload($request->image,'img/products');
+        $image->product_id = $id;
+        $image->save();
+        Alert::success('Foto berhasil ditambahkan', 'berhasil');
+        return redirect()->back();
     }
 
-    public function destroyPicture($id, $photo)
+    public function updateProductImage(Request $request,$id)
     {
-        $product = Product::find($id);
-        $old_photo = Photo::where('photo1', $product->photo1)->first();
-        File::delete(public_path('img/products/' . $old_photo->$photo));
-
-        Photo::where('photo1', $product->photo1)->update([
-            $photo => null
-        ]);
-
-        return redirect('/products' . '/' . $id . '/edit')->with('success', 'Photo has been deleted');
+        $request->validate(['image' => ['required', 'image','mimes:jpeg,png','max:2048']]);
+        $image = Image::findOrFail($id);
+        $image->image = $this->setImageUpload($request->image,'img/products',$image->image);
+        $image->save();
+        Alert::success('Foto berhasil di perbarui', 'berhasil');
+        return redirect()->back();
     }
+
+    public function destroyProductImage($id)
+    {
+        $image = Image::findOrFail($id);
+        File::delete(public_path('img/products/' . $image->image));
+        $image->delete();
+        Alert::success('Foto berhasil dihapus', 'berhasil');
+        return redirect()->back();
+    }
+    
 }

@@ -1,27 +1,27 @@
 @extends('layouts.master')
 @section('title')
-Home - Xylo Decoration
+Home - {{ config('app.name') }}
 @endsection
 @section('content')
 <section id="carousel" style="margin-top: 62px">
     <div class="carousel slide" data-ride="carousel" id="carousel-1">
         <div class="carousel-inner" role="listbox">
             <div class="carousel-item active ">
-                <img class="w-100" src="{{ asset('img/carousel/'.$company['photo1']) }}" alt="{{ $company['photo1'] }}">
+                <img class="w-100" src="{{ asset('img/carousel/'.$company->images[0]->image) }}" alt="{{ $company->images[0]->image }}">
                 <div class="carousel-caption d-none d-md-block">
-                    <h5>Xylo Decoration</h5>
+                    <h5>{{ config('app.name') }}</h5>
                 </div>
             </div>
-            @for ($i = 2; $i <= 6; $i++)
-            @if (!empty($photo['photo'.$i]))
+            @foreach ($company->images as $image)
+            @if ($image->image != $company->images[0]->image)
             <div class="carousel-item">
-                <img class="w-100" src="{{ asset('img/carousel/'.$photo['photo'.$i]) }}" alt="{{ $photo['photo'.$i] }}">
+                <img class="w-100" src="{{ asset('img/carousel/'.$image->image) }}" alt="{{ $image->image }}">
                 <div class="carousel-caption d-none d-md-block">
-                    <h5>Xylo Decoration</h5>
+                    <h5>{{ config('app.name') }}</h5>
                 </div>
             </div>
             @endif
-            @endfor
+            @endforeach
         </div>
         <div><a class="carousel-control-prev" href="#carousel-1" role="button" data-slide="prev"><span class="carousel-control-prev-icon"></span><span class="sr-only">Previous</span></a><a class="carousel-control-next" href="#carousel-1" role="button" data-slide="next"><span class="carousel-control-next-icon"></span><span class="sr-only">Next</span></a></div>
     </div>
@@ -38,7 +38,7 @@ Home - Xylo Decoration
             <div class="block-heading">
                 <h2 class="text-info">Silahkan Pilih Kategori</h2>
             </div>
-            <div class="row">
+            <div class="row justify-content-center">
                 @foreach ($categories as $category)
                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 mb-4">
                     <a class="card-link" href="{{ route('category',['category' => strtolower(str_replace(' ','-', $category->category))] )}}" style="font-size: 20px;">
@@ -77,7 +77,7 @@ Home - Xylo Decoration
             <h2 class="text-center">Testimonial</h2>
             <p class="text-center">{{ $company->testimonial }}</p>
         </div>
-        <div class="row people">
+        <div class="row people justify-content-center">
             @foreach ($testimonials as $testimonial)
             <div class="col-md-6 col-lg-4 item">
                 <div class="box">

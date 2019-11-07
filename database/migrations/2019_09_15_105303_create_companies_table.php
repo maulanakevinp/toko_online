@@ -28,11 +28,6 @@ class CreateCompaniesTable extends Migration
             $table->string('email');
             $table->text('maps');
             $table->text('testimonial');
-            $table->string('photo1');
-
-            $table->foreign('photo1')
-                ->references('photo1')->on('photos')
-                ->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

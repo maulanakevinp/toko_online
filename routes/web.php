@@ -42,8 +42,9 @@ Route::patch('/edit-password/{id}', 'AdminController@updatePassword')->name('upd
 Route::get('/company', 'UtilityController@company')->name('company');
 Route::patch('/update-company/{id}', 'UtilityController@updateCompany')->name('update-company');
 Route::get('/home-picture', 'UtilityController@homePicture')->name('home-picture');
-Route::patch('/update-home-picture/{id}/{photo}', 'UtilityController@updateHomePicture')->name('update-home-picture');
-Route::delete('/destroy-home-picture/{id}/{photo}', 'UtilityController@destroyHomePicture')->name('destroy-home-picture');
+Route::post('/add-home-picture', 'UtilityController@addHomePicture')->name('add-home-picture');
+Route::patch('/update-home-picture/{id}', 'UtilityController@updateHomePicture')->name('update-home-picture');
+Route::delete('/destroy-home-picture/{id}', 'UtilityController@destroyHomePicture')->name('destroy-home-picture');
 
 //Testimonial Controller
 Route::resource('/testimonials', 'TestimonialController')->except(['show', 'create']);
@@ -55,8 +56,9 @@ Route::get('/p/{category}', 'ProductController@category');
 Route::get('/p/{type}/{category}', 'ProductController@type');
 Route::post('/get-types', 'ProductController@getTypes')->name('get-types');
 Route::get('/get-types', 'ProductController@getTypes')->name('get-types');
-Route::patch('/update-product-picture/{id}/{photo}', 'ProductController@updatePicture')->name('update-product-picture');
-Route::delete('/destroy-product-picture/{id}/{photo}', 'ProductController@destroyPicture')->name('destroy-product-picture');
+Route::post('/add-product-image/{id}', 'ProductController@addProductImage')->name('add_product_image');
+Route::patch('/update-product-image/{id}', 'ProductController@updateProductImage')->name('update_product_image');
+Route::delete('/destroy-product-image/{id}', 'ProductController@destroyProductImage')->name('destroy_product_image');
 
 //Category Controller
 Route::resource('/categories', 'CategoryController')->except(['show']);

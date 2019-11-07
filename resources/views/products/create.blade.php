@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title')
-Add Product - Xylo Decoration
+Add Product - {{ config('app.name')}}
 @endsection
 
 @section('container')
@@ -8,8 +8,8 @@ Add Product - Xylo Decoration
 <div class="container-fluid">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('products.index') }}">Product</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Add Product</li>
+            <li class="breadcrumb-item"><a href="{{ route('products.index') }}">Produk</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Tambah produk baru</li>
         </ol>
     </nav>
     <div class="row">
@@ -33,7 +33,7 @@ Add Product - Xylo Decoration
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="name">Name</label> <label class="text-danger">*</label>
+                                <label for="name">Nama</label> <label class="text-danger">*</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" autocomplete="off" value="{{ old('name') }}">
                                 @error('name')
                                 <div class="invalid-feedback">
@@ -42,7 +42,7 @@ Add Product - Xylo Decoration
                                 @enderror
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="price">Price</label> <label class="text-danger">*</label>
+                                <label for="price">Harga</label> <label class="text-danger">*</label>
                                 <input type="number" class="form-control @error('price') is-invalid @enderror" name="price" autocomplete="off" value="{{ old('price') }}">
                                 @error('price')
                                 <div class="invalid-feedback">
@@ -53,11 +53,15 @@ Add Product - Xylo Decoration
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="category">Category</label> <label class="text-danger">*</label>
+                                <label for="category">Kategori</label> <label class="text-danger">*</label>
                                 <select id="category" name="category" class="form-control @error('category') is-invalid @enderror">
-                                    <option value="">Select Category</option>
+                                    <option value="">Pilih kategori</option>
                                     @foreach ($categories as $category)
-                                        <option value="<?= $category->id ?>"><?= $category->category ?></option>
+                                        @if (old('category') == $category->id)
+                                            <option selected="selected" value="{{ $category->id }}">{{ $category->category }}</option>
+                                        @else
+                                            <option value="{{ $category->id }}">{{ $category->category }}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                                 @error('category')
@@ -67,9 +71,9 @@ Add Product - Xylo Decoration
                                 @enderror
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="type">Type</label> <label class="text-danger">*</label>
+                                <label for="type">Tipe</label> <label class="text-danger">*</label>
                                 <select id="type" name="type" class="form-control @error('type') is-invalid @enderror">
-                                    <option value="">Select Type</option>
+                                    <option value="">Pilih tipe</option>
                                 </select>
                                 @error('type')
                                 <div class="invalid-feedback">
@@ -94,7 +98,7 @@ Add Product - Xylo Decoration
                         </div>
                         <div class="form-row">
                             <div class=" form-group col-md">
-                                <label for="description">Description</label>
+                                <label for="description">Deskripsi</label>
                                 <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="description" rows="5">{{ old('description') }}</textarea>
                                 @error('description')
                                 <div class="invalid-feedback">
@@ -103,22 +107,27 @@ Add Product - Xylo Decoration
                                 @enderror
                             </div>
                         </div>
-                        <div>
-                            <label> Photo </label> <label class="text-danger">*</label>
-                        </div>
                         <div class="form-row">
-                            @for ($i = 1; $i <= 6; $i++)
-                            <div class="input-group col-md-6 mb-3">
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="photo{{ $i }}" name="photo{{ $i }}" aria-describedby="photo">
-                                    <label class="custom-file-label" for="photo">Choose photo</label>
+                            <div class=" form-group col-md">
+                                <label for="specification">Spesifikasi</label>
+                                <textarea class="form-control @error('specification') is-invalid @enderror" name="specification" id="specification"
+                                    rows="5">{{ old('specification') }}</textarea>
+                                @error('specification')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
                                 </div>
+                                @enderror
                             </div>
-                            @endfor
                         </div>
-                        <div class="form-group  ">
+                        <div>
+                            <label> Foto </label> <label class="text-danger">*</label>
+                        </div>
+                        <div class="form" id="fieldImage">
+                            <input type="file" name="images[]" class="form-control" multiple>
+                        </div>
+                        <div class="form-group mt-3 ">
                             <button type="submit" class="btn btn-primary btn-block">
-                                Add New Product
+                                Tambah produk baru
                             </button>
                         </div>
                     </form>
@@ -132,4 +141,25 @@ Add Product - Xylo Decoration
 
 <!-- provide the csrf token -->
 <meta name="csrf-token" content="{{ csrf_token() }}" />
+@endsection
+@section('script')
+<script>
+    CKEDITOR.replace( 'description' );
+    CKEDITOR.replace( 'specification' );
+    // $(document).ready(function () {
+    //     $("#addImageField").click(function () {
+    //         var html = `
+    //             <div class="clone col-md-6 control-group input-group mb-3">
+    //                 <input type="file" name="filename[]" class="form-control">
+    //                 <div class="input-group-btn">
+    //                     <button class="btn btn-danger remove" type="button">Hapus</button>
+    //                 </div>
+    //             </div>`;
+    //         $("#fieldImage").append(html);
+    //     });
+    //     $("body").on("click", ".remove", function () {
+    //         $(this).parents(".clone").remove();
+    //     });
+    // });
+</script>
 @endsection

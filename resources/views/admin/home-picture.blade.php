@@ -8,7 +8,8 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Home Picture</h1>
+        <h1 class="h3 mb-0 text-gray-800 float-left">Home Picture</h1>
+        <button class="btn btn-primary float-right" data-toggle="modal" data-target="#newImageModal">Tambah Gambar</button>
     </div>
 
     <!-- Notification -->
@@ -23,17 +24,24 @@
     </div>
 
     <div class="row">
+        @foreach ($company->images as $image)
         <div class="col-md-6 mb-3">
             <div class="card">
                 <div class="card-body">
-                    <img class="mb-1" src="{{ asset('img/carousel/'. $company->photo1) }}" alt="{{ $company->photo1 }}" width="100%" height="250px">
-                    <form action=" {{ route('update-home-picture' ,['id' => $company->photo1 , 'photo' => 'photo1']) }} " method="post" enctype="multipart/form-data">
+                    <img class="mb-1" src="{{ asset('img/carousel/'. $image->image) }}" alt="{{ $image->image }}" width="100%" height="250px">
+                    <form action="{{ route('destroy-home-picture' , ['id' => $image->id]) }}" method="post">
+                        @method('delete')
+                        @csrf
+                        <button type="submit" class="btn btn-danger btn-block mb-1"
+                            onclick="return confirm('Are you sure want to DELETE this picture ?');">Delete Photo</button>
+                    </form>
+                    <form action=" {{ route('update-home-picture' ,['id' => $image->id]) }} " method="post" enctype="multipart/form-data">
                         @method('patch')
                         @csrf
                         <div class="input-group">
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="photo1" name="photo1" aria-describedby="photo1" required>
-                                <label class="custom-file-label" for="photo1">Choose photo</label>
+                                <input type="file" class="custom-file-input" id="image" name="image" aria-describedby="image" required>
+                                <label class="custom-file-label" for="image">Choose photo</label>
                             </div>
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary btn-sm" type="submit">Upload</button>
@@ -43,44 +51,40 @@
                 </div>
             </div>
         </div>
-        
-            @for ($i = 2; $i <= 6; $i++)
-            @php
-                $p = 'photo'.$i;
-            @endphp
-                <div class="col-md-6 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            @if (!empty($photo['photo' . $i]))
-                                <img class="mb-1" src="{{ asset('img/carousel/'. $photo['photo' . $i]) }}" alt="{{ $photo['photo' . $i] }}" width="100%" height="250px">
-                                <form action="{{ route('destroy-home-picture' , ['id' => $company->photo1, 'photo' => $p]) }}" method="post">
-                                    @method('delete')
-                                    @csrf
-                                    <button type="submit" class="btn btn-danger btn-block mb-1" onclick="return confirm('Are you sure want to DELETE this picture ?');">Delete Photo</button>
-                                </form>
-                            @else
-                                <img class="mb-1" src="{{ asset('img/noimage.jpg') }}" width="100%" height="250px">
-                            @endif
-                            <form action=" {{ route('update-home-picture', ['id' => $company->photo1 , 'photo' => $p]) }} " method="post" enctype="multipart/form-data">
-                                @method('patch')
-                                @csrf
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input " id="{{ $p }}" name="{{ $p }}" aria-describedby="{{ $p }}" required>
-                                        <label class="custom-file-label" for="{{ $p }}">Choose photo</label>
-                                    </div>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-outline-secondary btn-sm" type="submit">Upload</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            @endfor
+        @endforeach
     </div>
 
 </div>
 <!-- /.container-fluid -->
 
+<!-- Modal -->
+<div class="modal fade" id="newImageModal" tabindex="-1" role="dialog" aria-labelledby="newTestinonialModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newTestinonialModalLabel">Tambah Gambar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ route('add-home-picture') }}" method="post" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group input-group">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="image" name="image"
+                                aria-describedby="image">
+                            <label class="custom-file-label" for="image">Pilih gambar</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    <button type="Submit" class="btn btn-primary">Tambah</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection

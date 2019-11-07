@@ -20,8 +20,10 @@ class Company extends Model
      */
     public $timestamps = false;
 
-    public function photo()
+    public function images()
     {
-        return $this->belongsTo('App\Photo');
+        return $this->hasMany('App\Image');
     }
+
+    
 }

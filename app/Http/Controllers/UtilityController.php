@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Company;
-use App\Photo;
+use App\Image;
 use Illuminate\Http\Request;
 use File;
-
+use Alert;
 class UtilityController extends Controller
 {
 
@@ -23,7 +23,8 @@ class UtilityController extends Controller
     public function company()
     {
         $company = Company::find(1);
-        return view('admin.company', ['company' => $company]);
+        $title = 'Utilitas';
+        return view('admin.company', compact('company','title'));
     }
 
     public function updateCompany(Request $request, $id)
@@ -55,52 +56,53 @@ class UtilityController extends Controller
             'testimonial' => $request->testimonial,
         ]);
 
-        return redirect('/company')->with('success', 'Company has been updated');
+        Alert::success('Perusahaan berhasil diperbarui', 'berhasil');
+        return redirect('/company');
     }
 
     public function homePicture()
     {
         $company = Company::find(1);
+        $title = 'Utilitas';
 
-        $photo = Photo::where('photo1', $company->photo1)->first();
-
-        return view('admin.home-picture', ['photo' => $photo, 'company' => $company]);
+        return view('admin.home-picture', compact('company','title'));
     }
 
-    public function updateHomePicture(Request $request, $id, $photo)
+    public function updateHomePicture(Request $request, $id)
     {
         $request->validate([
-            $photo => 'required|image|mimes:jpeg,png,gif,webp|max:2048'
+            'image' => 'required|image|mimes:jpeg,png,gif,webp|max:2048'
         ]);
 
-        $old_photo = Photo::where('photo1', $id)->first();
+        $image = Image::findOrFail($id);
+        $image->image = $this->setImageUpload($request->file('image'), 'img/carousel', $image->image);
+        $image->save();
 
-        $file = $request->file($photo);
-
-        if (!empty($old_photo->$photo)) {
-            File::delete(public_path('img/carousel/' . $old_photo->$photo));
-        }
-
-        $file_name = time() . "_" . $file->getClientOriginalName();
-
-        $file->move(public_path('img/carousel'), $file_name);
-
-        Photo::where('photo1', $id)->update([
-            $photo => $file_name
-        ]);
-
-        return redirect('/home-picture')->with('success', 'Photo has been updated');
+        Alert::success('Gambar berhasil diperbarui', 'berhasil');
+        return redirect('/home-picture');
     }
 
-    public function destroyHomePicture($id, $photo)
+    public function addHomePicture(Request $request)
     {
-        $old_photo = Photo::where('photo1', $id)->first();
-        File::delete(public_path('img/carousel/' . $old_photo->$photo));
-
-        Photo::where('photo1', $id)->update([
-            $photo => null
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,gif,webp|max:2048'
         ]);
 
-        return redirect('/home-picture')->with('success', 'Photo has been deleted');
+        $image = new Image;
+        $image->company_id = 1;
+        $image->image = $this->setImageUpload($request->file('image'), 'img/carousel');
+        $image->save();
+
+        Alert::success('Gambar berhasil ditambahkan', 'berhasil');
+        return redirect('/home-picture');
+    }
+
+    public function destroyHomePicture($id)
+    {
+        $old_photo = Image::findOrFail($id);
+        File::delete(public_path('img/carousel/' . $old_photo->image));
+        Image::destroy($id);
+        Alert::success('Gambar berhasil dihapus', 'berhasil');
+        return redirect('/home-picture');
     }
 }

@@ -6,6 +6,7 @@ use App\Category;
 use App\Type;
 use Illuminate\Http\Request;
 use File;
+use Alert;
 
 class CategoryController extends Controller
 {
@@ -26,8 +27,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        $title = 'Bisnis';
         $categories = Category::paginate(15);
-        return view('categories.index', compact('categories'));
+        return view('categories.index', compact('categories','title'));
     }
 
     public function getType(Request $request)
@@ -50,16 +52,13 @@ class CategoryController extends Controller
             'photo' => 'image|mimes:jpeg,png,gif,webp|max:2048',
         ]);
 
-        $file = $request->file('photo');
-        $file_name = time() . "_" . $file->getClientOriginalName();
-        $file->move(public_path('img/categories'), $file_name);
+        $category = new Category;
+        $category->category = $request->category;
+        $category->photo = $this->setImageUpload($request->file('photo'),'img/categories');
+        $category->save();
 
-        Category::create([
-            'category' => $request->category,
-            'photo' => $file_name
-        ]);
-
-        return redirect('/categories')->with('success', 'Category has been created');
+        Alert::success('Category berhasil ditambahkan', 'berhasil');
+        return redirect('/categories');
     }
 
     /**
@@ -70,12 +69,10 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
+        $title = 'Bisnis';
         $category = Category::find($id);
         $types = Type::where('category_id', $id)->get();
-        return view('categories.edit', [
-            'category' => $category,
-            'types' => $types
-        ]);
+        return view('categories.edit', compact('category','types','title'));
     }
 
     /**
@@ -94,24 +91,15 @@ class CategoryController extends Controller
             'photo' => 'image|mimes:jpeg,png,gif,webp|max:2048'
         ]);
 
-        $file = $request->file('photo');
-
-        if (!empty($file)) {
-            $file_name = time() . "_" . $file->getClientOriginalName();
-            $file->move(public_path('img/categories'), $file_name);
-            File::delete(public_path('img/categories/' . $category->photo));
-
-            Category::where('id', $id)->update([
-                'category' => $request->category,
-                'photo' => $file_name
-            ]);
-        } else {
-            Category::where('id', $id)->update([
-                'category' => $request->category,
-            ]);
+        if ($request->file('photo')) {
+            $category->photo = $this->setImageUpload($request->file('photo'), 'img/categories',$category->photo);
         }
+        
+        $category->category = $request->category;
+        $category->save();
 
-        return redirect('/categories' . '/' . $id . '/edit')->with('success', 'Category has been updated');
+        Alert::success('Category berhasil diperbarui', 'berhasil');
+        return redirect()->back();
     }
 
     /**
@@ -126,6 +114,7 @@ class CategoryController extends Controller
         File::delete(public_path('img/categories/' . $category->photo));
         Category::destroy($id);
 
-        return redirect('/categories')->with('success', 'Category has been deleted');
+        Alert::success('Category berhasil dihapus', 'berhasil');
+        return redirect('/categories');
     }
 }

@@ -17,20 +17,17 @@ class CreateProductsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->unsignedBigInteger('type_id');
-            $table->string('photo1');
             $table->integer('price');
             $table->string('bukalapak')->nullable();
             $table->string('tokopedia')->nullable();
             $table->string('olx')->nullable();
             $table->text('description');
+            $table->text('specification')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('type_id')
                 ->references('id')->on('types')
-                ->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('photo1')
-                ->references('photo1')->on('photos')
                 ->onDelete('cascade')->onUpdate('cascade');
         });
     }

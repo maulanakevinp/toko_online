@@ -20,7 +20,7 @@ class Type extends Model
      */
     public $timestamps = false;
 
-    public function product()
+    public function products()
     {
         return $this->hasMany('App\Product');
     }

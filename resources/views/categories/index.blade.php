@@ -39,7 +39,7 @@
                 @endif
         </div>
     </div>
-    <div class="row">
+    <div class="row justify-content-center">
         @foreach($categories as $category)
             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 mb-4">
                 <a href="{{ route('categories.edit', $category->id) }}" class="card-link">

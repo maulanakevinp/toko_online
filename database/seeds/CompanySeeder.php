@@ -25,7 +25,6 @@ class CompanySeeder extends Seeder
             'email' => 'karyaxyloabadi@gmail.com',
             'maps' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.712917680788!2d106.7536841658858!3d-6.430913341374765!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69e9e78f116aaf:0x4be6e7c62c74e2bd!2sCv.Karya+Xylo+Abadi!5e0!3m2!1sid!2sid!4v1563703326306!5m2!1sid!2sid',
             'testimonial' => 'Pelanggan kami mencintai kita! Baca apa yang mereka katakan di bawah ini.',
-            'photo1' => '1.jpg'
         ]);
     }
 }

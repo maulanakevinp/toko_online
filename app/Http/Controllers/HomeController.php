@@ -17,14 +17,8 @@ class HomeController extends Controller
         $company = Company::find(1);
         $testimonials = Testimonial::all();
         $categories = Category::all();
-        $photo = Photo::where('photo1', $company->photo1)->first();
 
-        return view('index', [
-            'company' => $company,
-            'testimonials' => $testimonials,
-            'categories' => $categories,
-            'photo' => $photo
-        ]);
+        return view('index', compact('company','testimonials','categories'));
     }
 
     public function products()
@@ -34,12 +28,7 @@ class HomeController extends Controller
         $products = Product::paginate(15);
         $title = 'Produk';
 
-        return view('products', [
-            'title' => $title,
-            'company' => $company,
-            'categories' => $categories,
-            'products' => $products
-        ]);
+        return view('products', compact('title', 'products', 'categories', 'company'));
     }
 
     public function search(Request $request)
@@ -50,12 +39,7 @@ class HomeController extends Controller
         $products = Product::where('name', 'like', '%' . $keyword . '%')->paginate(15);
         $title = 'Produk';
 
-        return view('products', [
-            'title' => $title,
-            'company' => $company,
-            'categories' => $categories,
-            'products' => $products
-        ]);
+        return view('products', compact('title', 'products', 'categories', 'company'));
     }
 
     public function category($cat)
@@ -64,18 +48,13 @@ class HomeController extends Controller
         $company = Company::find(1);
         $categories = Category::all();
         $category = Category::where('category', $cat)->first();
-        $product = new Product;
-        $products = $product->category($category->id);
+        $products = Product::whereHas('type',function($q) use ($category){
+            $q->where('category_id',$category->id);
+        })->paginate(15);
         $types = Type::where('category_id', $category->id)->get();
         $title = $category->category;
 
-        return view('category', [
-            'title' => $title,
-            'company' => $company,
-            'types' => $types,
-            'categories' => $categories,
-            'products' => $products
-        ]);
+        return view('category', compact('title','types','products','categories','company'));
     }
 
     public function type($id, $cat)
@@ -88,28 +67,16 @@ class HomeController extends Controller
         $types = Type::where('category_id', $category->id)->get();
         $type = Type::find($id);
         $title = $type->type;
-
-        return view('type', [
-            'title' => $title,
-            'company' => $company,
-            'types' => $types,
-            'categories' => $categories,
-            'products' => $products
-        ]);
+        
+        return view('type', compact('title', 'types', 'products', 'categories', 'company'));
     }
 
     public function detailsProduct($id, $name)
     {
         $company = Company::find(1);
         $products = new Product;
-        $product = $products->product($id);
+        $product = $products->findOrFail($id);
         $title = $product->name;
-        $photo = Photo::where('photo1', $product->photo1)->first();
-        return view('details-product', [
-            'title' => $title,
-            'company' => $company,
-            'product' => $product,
-            'photo' => $photo
-        ]);
+        return view('details-product', compact('title','company','product'));
     }
 }

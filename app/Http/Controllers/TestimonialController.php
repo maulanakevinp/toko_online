@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Testimonial;
 use Illuminate\Http\Request;
 use File;
+use Alert;
 
 class TestimonialController extends Controller
 {
@@ -25,8 +26,9 @@ class TestimonialController extends Controller
      */
     public function index()
     {
+        $title = 'Utilitas';
         $testimonials = Testimonial::all();
-        return view('testimonials.index', compact('testimonials'));
+        return view('testimonials.index', compact('title','testimonials'));
     }
 
     /**
@@ -43,17 +45,14 @@ class TestimonialController extends Controller
             'photo' => 'required|image|mimes:jpeg,png,gif,webp|max:2048',
         ]);
 
-        $file = $request->file('photo');
-        $file_name = time() . "_" . $file->getClientOriginalName();
-        $file->move(public_path('img/testimonial'), $file_name);
+        $testimonial = new Testimonial;
+        $testimonial->name = $request->name;
+        $testimonial->description = $request->description;
+        $testimonial->photo = $this->setImageUpload($request->file('photo'), 'img/testimonial');
+        $testimonial->save();
 
-        Testimonial::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'photo' => $file_name
-        ]);
-
-        return redirect('/testimonials')->with('success', 'Testimonial has been created');
+        Alert::success('Testimoni berhasil ditambahkan', 'berhasil');
+        return redirect('/testimonials');
     }
 
     /**
@@ -64,8 +63,9 @@ class TestimonialController extends Controller
      */
     public function edit($id)
     {
+        $title = 'Utilitas';
         $testimonial = Testimonial::find($id);
-        return view('testimonials.edit', compact('testimonial'));
+        return view('testimonials.edit', compact('title','testimonial'));
     }
 
     /**
@@ -85,26 +85,17 @@ class TestimonialController extends Controller
             'photo' => 'image|mimes:jpeg,png,gif,webp|max:2048'
         ]);
 
-        $file = $request->file('photo');
 
-        if (!empty($file)) {
-            $file_name = time() . "_" . $file->getClientOriginalName();
-            File::delete(public_path('img/testimonial/' . $testimonial->photo));
-            $file->move(public_path('img/testimonial'), $file_name);
-
-            Testimonial::where('id', $id)->update([
-                'name' => $request->name,
-                'description' => $request->description,
-                'photo' => $file_name
-            ]);
-        } else {
-            Testimonial::where('id', $id)->update([
-                'name' => $request->name,
-                'description' => $request->description,
-            ]);
+        if ($request->file('photo')) {
+            $testimonial->photo = $this->setImageUpload($request->file('photo'),'img/testimonial',$testimonial->photo);
         }
+        
+        $testimonial->name = $request->name;
+        $testimonial->description = $request->description;
+        $testimonial->save();
 
-        return redirect('/testimonials')->with('success', 'Testimonial has been updated');
+        Alert::success('Testimoni berhasil diperbarui', 'berhasil');
+        return redirect('/testimonials');
     }
 
     /**
@@ -119,6 +110,7 @@ class TestimonialController extends Controller
         File::delete(public_path('img/testimonial/' . $testimonial->photo));
         Testimonial::destroy($id);
 
-        return redirect('/testimonials')->with('success', 'Testimonial has been deleted');
+        Alert::success('Testimoni berhasil dihapus', 'berhasil');
+        return redirect('/testimonials');
     }
 }

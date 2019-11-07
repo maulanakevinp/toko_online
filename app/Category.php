@@ -21,7 +21,7 @@ class Category extends Model
      */
     public $timestamps = false;
 
-    public function type()
+    public function types()
     {
         return $this->hasMany('App\Type');
     }

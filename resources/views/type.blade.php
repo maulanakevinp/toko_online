@@ -48,13 +48,32 @@
                     </div>
                     <div class="col-md-9">
                         <div class="products">
+                            @if ($products[0] == null)
+                            <div class="text-center">
+                                <h2>Produk belum tersedia</h2>
+                            </div>
+                            @endif
                             <div class="row no-gutters">
-                                @foreach ($products as $product)                                        
+                                @foreach ($products as $product)    
                                 <div class="col-12 col-md-6 col-lg-4">
                                     <div class="clean-product-item">
-                                        <div class="image">
+                                        <div class="image text-center">
                                             <a href="{{ route('details-product', ['id' => $product->id, 'name' => strtolower(str_replace(' ','-',$product->name))] )}}">
-                                                <img class="img-fluid d-block mx-auto" src="{{ asset('/img/products/'.$product->photo1) }}">
+                                                <div class="carousel slide" data-ride="carousel" id="carousel-1">
+                                                    <div class="carousel-inner" role="listbox">
+                                                        <div class="carousel-item active ">
+                                                            <img class="w-100" src="{{ asset('img/products/'.$product->images[0]->image) }}" alt="{{ $product->images[0]->image }}">
+                                                        </div>
+                                                        @foreach ($product->images as $image)
+                                                        @if ($image->image != $product->images[0]->image)
+                                                        <div class="carousel-item">
+                                                            <img class="w-100" src="{{ asset('img/products/'.$image->image) }}" alt="{{ $image->image }}">
+                                                        </div>
+                                                        @endif
+                                                        @endforeach
+                                                    </div>
+                                                    <div><a class="carousel-control-prev" href="#carousel-1" role="button" data-slide="prev"><span class="carousel-control-prev-icon"></span><span class="sr-only">Previous</span></a><a class="carousel-control-next" href="#carousel-1" role="button" data-slide="next"><span class="carousel-control-next-icon"></span><span class="sr-only">Next</span></a></div>
+                                                </div>
                                             </a>
                                         </div>
                                         <div class="product-name">

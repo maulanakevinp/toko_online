@@ -68,7 +68,7 @@
                 <a href="{{$company->whatsapp}}" target="_blank" class="text-white">{{$company->whatsapp_number}}<br></a>
             </div>
             <div><i class="fas fa-mail-bulk text-white mr-2 mb-2" style="font-size: 22px;height: 24px; "></i>
-                <a href="{{$company->email}}" target="_blank" class="text-white">{{$company->email}}<br></a>
+                <a href="mailto:{{$company->email}}" target="_blank" class="text-white">{{$company->email}}<br></a>
             </div>
         </div>
         <div class="container text-center">

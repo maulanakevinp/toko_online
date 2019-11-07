@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title')
-{{ $title }} - Xylo Decoration
+{{ $subtitle }} - {{ config('app.name')}}
 @endsection
 
 @section('container')
@@ -9,16 +9,16 @@
 
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">{{ $title }}</h1>
+            <h1 class="h3 mb-0 text-gray-800">{{ $subtitle }}</h1>
         </div>
 
         <div class="row">
             <div class="col-md-3 mb-3">
-                <a href="{{ route('products.create') }}" class="btn btn-primary mb-3">Add New Product</a>
+                <a href="{{ route('products.create') }}" class="btn btn-primary mb-3">Tambah produk baru</a>
             </div>
             <div class="col-md-3 mb-3">
                 <select class="form-control" name="category" id="categorySearch">
-                    <option value="">Choose Category</option>
+                    <option value="">Pilih kategori</option>
                     @foreach ($categories as $category)
                         @if (str_replace('-',' ',Request::segment(3)) == strtolower($category->category))
                             <option selected value="{{ $category->category }}">{{ $category->category }}</option>
@@ -30,9 +30,9 @@
             </div>
             <div class="col-md-3 mb-3">
                 <select class="form-control" name="type" id="typeSearch">
-                    <option value="">Choose Type</option>
+                    <option value="">Pilih tipe</option>
                     @foreach ($types as $type)
-                        @if ($type->type == $title)
+                        @if ($type->type == $subtitle)
                             <option selected value="{{ $type->id }}">{{ $type->type }}</option>
                         @else
                             <option value="{{ $type->id }}">{{ $type->type }}</option>
@@ -48,7 +48,7 @@
                             <input class="btn btn-primary" type="submit" value="Search">
                         </div>
                     </div>
-                    @if ($title == 'Cari Produk')
+                    @if ($subtitle == 'Cari Produk')
                         <p class="ml-2 mt-2">
                             Hasil :  {{ $count }}
                         </p>
@@ -58,13 +58,32 @@
         </div>
         <div class="content">
             <div class="products p-3">
+                @if ($products[0] == null)
+                <div class="text-center">
+                    <h5 class="font-weight-bold">Produk Belum Tersedia</h5>
+                </div>
+                @endif
                 <div class="row no-gutters">
                     @foreach ($products as $product)                                        
                         <div class="col-12 col-md-6 col-lg-4">
                             <div class="clean-product-item">
-                                <div class="image">
+                                <div class="image text-center">
                                     <a href="{{ route('products.edit', $product->id ) }}">
-                                        <img class="img-fluid d-block mx-auto" src="{{ asset('/img/products/'.$product->photo1) }}">
+                                        <div class="carousel slide" data-ride="carousel" id="carousel-1">
+                                            <div class="carousel-inner" role="listbox">
+                                                <div class="carousel-item active ">
+                                                    <img class="w-100" src="{{ asset('img/products/'.$product->images[0]->image) }}" alt="{{ $product->images[0]->image }}">
+                                                </div>
+                                                @foreach ($product->images as $image)
+                                                @if ($image->image != $product->images[0]->image)
+                                                <div class="carousel-item">
+                                                    <img class="w-100" src="{{ asset('img/products/'.$image->image) }}" alt="{{ $image->image }}">
+                                                </div>
+                                                @endif
+                                                @endforeach
+                                            </div>
+                                            <div><a class="carousel-control-prev" href="#carousel-1" role="button" data-slide="prev"><span class="carousel-control-prev-icon"></span><span class="sr-only">Previous</span></a><a class="carousel-control-next" href="#carousel-1" role="button" data-slide="next"><span class="carousel-control-next-icon"></span><span class="sr-only">Next</span></a></div>
+                                        </div>
                                     </a>
                                 </div>
                                 <div class="product-name">

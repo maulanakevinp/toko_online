@@ -25,13 +25,14 @@
     <link rel="stylesheet" href="{{ asset('fonts/simple-line-icons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('fonts/fontawesome5-overrides.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
     <link rel="stylesheet" href="{{ asset('css/Map-Clean.css') }}">
     <link rel="stylesheet" href="{{ asset('css/smoothproducts.css') }}">
     <link rel="stylesheet" href="{{ asset('css/Testimonials.css') }}">
-
+    <script src="{{asset('ckeditor/ckeditor.js')}}"></script>
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
     <link rel="icon" href="{{ asset('img/navbar/gambar-background-kayu-hd.jpg') }}">
-
+    @yield('style')
 </head>
 
 <body id="page-top">
@@ -97,6 +98,8 @@
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    @include('sweet::alert')
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -106,14 +109,7 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
-
-    <!-- Page level plugins -->
-    <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
-    <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
-
+    @yield('script')
     <script>
     $(document).ready(function() {
         $(".custom-file-input").on("change", function() {
