@@ -87,7 +87,7 @@
                                 {!! $product->description !!}
                             </div>
                             <div class="tab-pane fade show specifications" role="tabpanel" id="specifications">
-                                {!! $product->specifications !!}
+                                {!! $product->specification !!}
                             </div>
                             <div class="tab-pane fade show" role="tabpanel" id="reviews">
                                 <div class="reviews">

@@ -72,12 +72,12 @@
                                         <div class="carousel slide" data-ride="carousel" id="carousel-1">
                                             <div class="carousel-inner" role="listbox">
                                                 <div class="carousel-item active ">
-                                                    <img class="w-100" src="{{ asset('img/products/'.$product->images[0]->image) }}" alt="{{ $product->images[0]->image }}">
+                                                    <img class="w-100" height="200px" src="{{ asset('img/products/'.$product->images[0]->image) }}" alt="{{ $product->images[0]->image }}">
                                                 </div>
                                                 @foreach ($product->images as $image)
                                                 @if ($image->image != $product->images[0]->image)
                                                 <div class="carousel-item">
-                                                    <img class="w-100" src="{{ asset('img/products/'.$image->image) }}" alt="{{ $image->image }}">
+                                                    <img class="w-100" height="200px" src="{{ asset('img/products/'.$image->image) }}" alt="{{ $image->image }}">
                                                 </div>
                                                 @endif
                                                 @endforeach
@@ -88,7 +88,7 @@
                                 </div>
                                 <div class="product-name">
                                     <a href="{{ route('products.edit', $product->id ) }}">
-                                        {{ $product->name }}
+                                        <p class="block-with-text" data-toogle="tooltip" title="{{ $product->name }}">{{ $product->name }}</p>
                                     </a>
                                 </div>
                                 <div class="about">

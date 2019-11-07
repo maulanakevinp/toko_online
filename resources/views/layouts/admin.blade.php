@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="{{ asset('css/Map-Clean.css') }}">
     <link rel="stylesheet" href="{{ asset('css/smoothproducts.css') }}">
     <link rel="stylesheet" href="{{ asset('css/Testimonials.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/mystyle.css') }}">
     <script src="{{asset('ckeditor/ckeditor.js')}}"></script>
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
     <link rel="icon" href="{{ asset('img/navbar/gambar-background-kayu-hd.jpg') }}">

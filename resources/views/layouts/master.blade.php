@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{ asset('css/Map-Clean.css') }}">
     <link rel="stylesheet" href="{{ asset('css/smoothproducts.css') }}">
     <link rel="stylesheet" href="{{ asset('css/Testimonials.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/mystyle.css') }}">
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
