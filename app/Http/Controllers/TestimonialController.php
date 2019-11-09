@@ -27,8 +27,9 @@ class TestimonialController extends Controller
     public function index()
     {
         $title = 'Utilitas';
+        $subtitle = 'Testimonial';
         $testimonials = Testimonial::all();
-        return view('testimonials.index', compact('title','testimonials'));
+        return view('testimonials.index', compact('title','subtitle','testimonials'));
     }
 
     /**
@@ -40,15 +41,15 @@ class TestimonialController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'description' => 'required',
-            'photo' => 'required|image|mimes:jpeg,png,gif,webp|max:2048',
+            'nama' => 'required',
+            'deskripsi' => 'required',
+            'foto' => 'required|image|mimes:jpeg,png,gif,webp|max:2048',
         ]);
 
         $testimonial = new Testimonial;
-        $testimonial->name = $request->name;
-        $testimonial->description = $request->description;
-        $testimonial->photo = $this->setImageUpload($request->file('photo'), 'img/testimonial');
+        $testimonial->name = $request->nama;
+        $testimonial->description = $request->deskripsi;
+        $testimonial->photo = $this->setImageUpload($request->file('foto'), 'img/testimonial');
         $testimonial->save();
 
         Alert::success('Testimoni berhasil ditambahkan', 'berhasil');
@@ -64,8 +65,9 @@ class TestimonialController extends Controller
     public function edit($id)
     {
         $title = 'Utilitas';
+        $subtitle = 'Testimonial';
         $testimonial = Testimonial::find($id);
-        return view('testimonials.edit', compact('title','testimonial'));
+        return view('testimonials.edit', compact('title','subtitle','testimonial'));
     }
 
     /**
@@ -80,18 +82,18 @@ class TestimonialController extends Controller
         $testimonial = Testimonial::find($id);
 
         $request->validate([
-            'name' => 'required',
-            'description' => 'required',
-            'photo' => 'image|mimes:jpeg,png,gif,webp|max:2048'
+            'nama' => 'required',
+            'deskripsi' => 'required',
+            'foto' => 'image|mimes:jpeg,png,gif,webp|max:2048'
         ]);
 
 
-        if ($request->file('photo')) {
-            $testimonial->photo = $this->setImageUpload($request->file('photo'),'img/testimonial',$testimonial->photo);
+        if ($request->file('foto')) {
+            $testimonial->photo = $this->setImageUpload($request->file('foto'),'img/testimonial',$testimonial->photo);
         }
         
-        $testimonial->name = $request->name;
-        $testimonial->description = $request->description;
+        $testimonial->name = $request->nama;
+        $testimonial->description = $request->deskripsi;
         $testimonial->save();
 
         Alert::success('Testimoni berhasil diperbarui', 'berhasil');

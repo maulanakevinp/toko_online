@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title')
-Add Product - {{ config('app.name')}}
+Tambah Produk - {{ config('app.name')}}
 @endsection
 
 @section('container')
@@ -27,24 +27,24 @@ Add Product - {{ config('app.name')}}
     </div>
     <div class="row">
         <div class="col-lg">
-            <div class="card">
+            <div class="card shadow-sm">
                 <div class="card-body">
                     <form action=" {{ route('products.store') }} " method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="name">Nama</label> <label class="text-danger">*</label>
-                                <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" autocomplete="off" value="{{ old('name') }}">
-                                @error('name')
+                                <label for="nama">Nama</label> <label class="text-danger">*</label>
+                                <input type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" autocomplete="off" value="{{ old('nama') }}">
+                                @error('nama')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
                                 @enderror
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="price">Harga</label> <label class="text-danger">*</label>
-                                <input type="number" class="form-control @error('price') is-invalid @enderror" name="price" autocomplete="off" value="{{ old('price') }}">
-                                @error('price')
+                                <label for="harga">Harga</label> <label class="text-danger">*</label>
+                                <input type="number" class="form-control @error('harga') is-invalid @enderror" name="harga" autocomplete="off" value="{{ old('harga') }}">
+                                @error('harga')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -53,29 +53,29 @@ Add Product - {{ config('app.name')}}
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="category">Kategori</label> <label class="text-danger">*</label>
-                                <select id="category" name="category" class="form-control @error('category') is-invalid @enderror">
-                                    <option value="">Pilih kategori</option>
+                                <label for="kategori">Kategori</label> <label class="text-danger">*</label>
+                                <select id="kategori" name="kategori" class="form-control @error('kategori') is-invalid @enderror">
+                                    <option value="">Pilih Kategori</option>
                                     @foreach ($categories as $category)
-                                        @if (old('category') == $category->id)
+                                        @if (old('kategori') == $category->id)
                                             <option selected="selected" value="{{ $category->id }}">{{ $category->category }}</option>
                                         @else
                                             <option value="{{ $category->id }}">{{ $category->category }}</option>
                                         @endif
                                     @endforeach
                                 </select>
-                                @error('category')
+                                @error('kategori')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
                                 @enderror
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="type">Tipe</label> <label class="text-danger">*</label>
-                                <select id="type" name="type" class="form-control @error('type') is-invalid @enderror">
-                                    <option value="">Pilih tipe</option>
+                                <label for="jenis">Jenis</label> <label class="text-danger">*</label>
+                                <select id="jenis" name="jenis" class="form-control @error('jenis') is-invalid @enderror">
+                                    <option value="">Pilih Jenis</option>
                                 </select>
-                                @error('type')
+                                @error('jenis')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -98,9 +98,9 @@ Add Product - {{ config('app.name')}}
                         </div>
                         <div class="form-row">
                             <div class=" form-group col-md">
-                                <label for="description">Deskripsi</label>
-                                <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="description" rows="5">{{ old('description') }}</textarea>
-                                @error('description')
+                                <label for="deskripsi">Deskripsi</label>
+                                <textarea class="form-control @error('deskripsi') is-invalid @enderror" name="deskripsi" id="deskripsi" rows="5">{{ old('deskripsi') }}</textarea>
+                                @error('deskripsi')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -123,7 +123,7 @@ Add Product - {{ config('app.name')}}
                             <label> Foto </label> <label class="text-danger">*</label>
                         </div>
                         <div class="form" id="fieldImage">
-                            <input type="file" name="images[]" class="form-control" multiple>
+                            <input type="file" name="foto[]" class="form-control" multiple>
                         </div>
                         <div class="form-group mt-3 ">
                             <button type="submit" class="btn btn-primary btn-block">
@@ -144,22 +144,28 @@ Add Product - {{ config('app.name')}}
 @endsection
 @section('script')
 <script>
-    CKEDITOR.replace( 'description' );
+    CKEDITOR.replace( 'deskripsi' );
     CKEDITOR.replace( 'specification' );
-    // $(document).ready(function () {
-    //     $("#addImageField").click(function () {
-    //         var html = `
-    //             <div class="clone col-md-6 control-group input-group mb-3">
-    //                 <input type="file" name="filename[]" class="form-control">
-    //                 <div class="input-group-btn">
-    //                     <button class="btn btn-danger remove" type="button">Hapus</button>
-    //                 </div>
-    //             </div>`;
-    //         $("#fieldImage").append(html);
-    //     });
-    //     $("body").on("click", ".remove", function () {
-    //         $(this).parents(".clone").remove();
-    //     });
-    // });
+    $(document).ready(function(){
+        $("#kategori").on("change", function() {
+            const category_id = $(this).val();
+            const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            if (category_id != '') {
+                $.ajax({
+                    url: "{{ route('get-types') }}",
+                    type: 'post',
+                    data: {
+                        _token: CSRF_TOKEN,
+                        id: category_id
+                    },
+                    success: function(data) {
+                        $("#jenis").html(data);
+                    }
+                });
+            } else {
+                $("#jenis").html('<option value="">Pilih Jenis</option>');
+            }
+        });
+    });
 </script>
 @endsection

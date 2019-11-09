@@ -8,7 +8,7 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800 float-left">Home Picture</h1>
+        <h1 class="h3 mb-0 text-gray-800 float-left">Slideshow</h1>
         <button class="btn btn-primary float-right" data-toggle="modal" data-target="#newImageModal">Tambah Gambar</button>
     </div>
 
@@ -33,15 +33,15 @@
                         @method('delete')
                         @csrf
                         <button type="submit" class="btn btn-danger btn-block mb-1"
-                            onclick="return confirm('Are you sure want to DELETE this picture ?');">Delete Photo</button>
+                            onclick="return confirm('Are you sure want to DELETE this picture ?');">Hapus foto</button>
                     </form>
                     <form action=" {{ route('update-home-picture' ,['id' => $image->id]) }} " method="post" enctype="multipart/form-data">
                         @method('patch')
                         @csrf
                         <div class="input-group">
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="image" name="image" aria-describedby="image" required>
-                                <label class="custom-file-label" for="image">Choose photo</label>
+                                <input type="file" class="custom-file-input" id="foto" name="foto" aria-describedby="foto" required>
+                                <label class="custom-file-label" for="foto">Pilih foto</label>
                             </div>
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary btn-sm" type="submit">Upload</button>
@@ -73,9 +73,9 @@
                 <div class="modal-body">
                     <div class="form-group input-group">
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="image" name="image"
-                                aria-describedby="image">
-                            <label class="custom-file-label" for="image">Pilih gambar</label>
+                            <input type="file" class="custom-file-input" id="foto" name="foto"
+                                aria-describedby="foto">
+                            <label class="custom-file-label" for="foto">Pilih gambar</label>
                         </div>
                     </div>
                 </div>

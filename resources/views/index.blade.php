@@ -42,7 +42,7 @@ Home - {{ config('app.name') }}
                 @foreach ($categories as $category)
                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 mb-4">
                     <a class="card-link" href="{{ route('category',['category' => strtolower(str_replace(' ','-', $category->category))] )}}" style="font-size: 20px;">
-                        <div class="card">
+                        <div class="card shadow-sm">
                             <img class="card-img-top" style="height: 200px" src="{{asset('/img/categories/'.$category->photo)}}">
                             <div class="card-body text-center">
                                 <h5>{{$category->category}}</h5>

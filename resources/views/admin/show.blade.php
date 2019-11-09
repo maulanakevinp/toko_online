@@ -1,6 +1,7 @@
 @extends('layouts.admin')
-@section('title','My Profile - Xylo Decoration')
-
+@section('title')
+{{ $title }} - {{ config('app.name') }}
+@endsection
 @section('container')
 
 
@@ -9,19 +10,7 @@
 
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">My Profile</h1>
-    
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if (session('failed'))
-        <div class="alert alert-danger">
-            {{ session('failed') }}
-        </div>
-    @endif
+    <h1 class="h3 mb-0 text-gray-800">Profil Saya</h1>
 </div>
 
     <div class="card mb-3 col-lg-8 p-0">
@@ -33,7 +22,7 @@
                 <div class="card-body">
                     <h5 class="card-title"> {{ Auth::user()->name }} </h5>
                     <p class="card-text"> {{ Auth::user()->email }} </p>
-                    <a href=" {{ route('edit-profile') }} " class="btn btn-warning btn-sm">Edit</a>
+                    <a href=" {{ route('edit-profile') }} " class="btn btn-warning btn-sm">Ubah</a>
                 </div>
             </div>
         </div>

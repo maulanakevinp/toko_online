@@ -34,13 +34,15 @@ class AdminController extends Controller
     public function show()
     {
         $title = 'Profil';
-        return view('admin.show',compact('title'));
+        $subtitle = 'Profil Saya';
+        return view('admin.show',compact('title','subtitle'));
     }
 
     public function editProfile()
     {
         $title = 'Profil';
-        return view('admin.edit-profile',compact('title'));
+        $subtitle = 'Ubah Profil';
+        return view('admin.edit-profile',compact('title','subtitle'));
     }
 
     public function updateProfile(Request $request, $id)
@@ -65,32 +67,33 @@ class AdminController extends Controller
     public function editPassword()
     {
         $title = 'Profil';
-        return view('admin.edit-password',compact('title'));
+        $subtitle = 'Ganti Password';
+        return view('admin.edit-password',compact('title','subtitle'));
     }
 
     public function updatePassword(Request $request, $id)
     {
         $request->validate([
-            'current_password' => 'required|min:6',
-            'new_password' => 'required|min:6|required_with:confirm_password|same:confirm_password',
-            'confirm_password' => 'required|min:6'
+            'password_saat_ini' => 'required|min:6',
+            'password_baru' => 'required|min:6|required_with:konfirmasi_password|same:konfirmasi_password',
+            'konfirmasi_password' => 'required|min:6'
         ]);
 
         $user = User::find($id);
 
-        if (Hash::check($request->current_password, $user->password)) {
-            if (($request->new_password == $request->current_password)) {
+        if (Hash::check($request->password_saat_ini, $user->password)) {
+            if (($request->password_baru == $request->password_saat_ini)) {
                 Alert::warning('tidak ada perubahan')->persistent('tutup');
                 return back();
             } else {
                 User::where('id', $id)->update([
-                    'password' => Hash::make($request->confirm_password)
+                    'password' => Hash::make($request->konfirmasi_password)
                 ]);
                 Alert::success('Password berhasil diperbarui', 'berhasil');
                 return redirect('/my-profile');
             }
         } else {
-            Alert::error('Password lama salah, password gagal diperbarui', 'gagal')->persistent('tutup');
+            Alert::error('Password saat ini salah, password gagal diperbarui', 'gagal')->persistent('tutup');
             return back();
         }
     }

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title')
-Edit Product - {{ config('app.name')}}
+Ubah Produk - {{ config('app.name')}}
 @endsection
 
 @section('container')
@@ -15,18 +15,6 @@ Edit Product - {{ config('app.name')}}
     </nav>
     <div class="row">
         <div class="col-lg">
-            @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            @if (session('failed'))
-                <div class="alert alert-danger">
-                    {{ session('failed') }}
-                </div>
-            @endif
-
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -47,18 +35,18 @@ Edit Product - {{ config('app.name')}}
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="name">Nama</label> <label class="text-danger">*</label>
-                                <input type="text" class="form-control" name="name" autocomplete="off" value="{{ $product->name }}">
-                                @error('name')
+                                <label for="nama">Nama</label> <label class="text-danger">*</label>
+                                <input type="text" class="form-control" name="nama" autocomplete="off" value="{{ old('name',$product->name) }}">
+                                @error('nama')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
                                 @enderror
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="price">Harga</label> <label class="text-danger">*</label>
-                                <input type="number" class="form-control" name="price" autocomplete="off" value="{{ $product->price }}">
-                                @error('price')
+                                <label for="harga">Harga</label> <label class="text-danger">*</label>
+                                <input type="number" class="form-control" name="harga" autocomplete="off" value="{{ old('harga',$product->price) }}">
+                                @error('harga')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -67,9 +55,9 @@ Edit Product - {{ config('app.name')}}
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="category">Kategori</label> <label class="text-danger">*</label>
-                                <select id="category" name="category" class="form-control">
-                                    <option value="">Pilih kategori</option>
+                                <label for="kategori">Kategori</label> <label class="text-danger">*</label>
+                                <select id="kategori" name="kategori" class="form-control">
+                                    <option value="">Pilih Kategori</option>
                                     @foreach ($categories as $category)
                                     @if($product->type->category_id == $category->id)
                                         <option selected="selected" value="{{ $category->id }}">{{ $category->category }}</option>
@@ -78,18 +66,16 @@ Edit Product - {{ config('app.name')}}
                                     @endif
                                     @endforeach
                                 </select>
-                                @error('category')
+                                @error('kategori')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
                                 @enderror
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="type">Tipe</label> <label class="text-danger">*</label>
-                                <select id="type" name="type" class="form-control">
-                                    <option selected="selected" value="{{ $product->type_id }}">{{ $product->type->type }}</option>
-                                </select>
-                                @error('type')
+                                <label for="jenis">Jenis</label> <label class="text-danger">*</label>
+                                <select id="jenis" name="jenis" class="form-control"></select>
+                                @error('jenis')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -99,22 +85,22 @@ Edit Product - {{ config('app.name')}}
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="bukalapak">Bukalapak</label>
-                                <input type="text" class="form-control" name="bukalapak" autocomplete="off" value="{{ $product->bukalapak }}">
+                                <input type="text" class="form-control" name="bukalapak" autocomplete="off" value="{{ old('bukalapak',$product->bukalapak) }}">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="tokopedia">Tokopedia</label>
-                                <input type="text" class="form-control" name="tokopedia" autocomplete="off" value="{{ $product->tokopedia }}">
+                                <input type="text" class="form-control" name="tokopedia" autocomplete="off" value="{{ old('tokopedia',$product->tokopedia) }}">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="olx">OLX</label>
-                                <input type="text" class="form-control" name="olx" autocomplete="off" value="{{ $product->olx }}">
+                                <input type="text" class="form-control" name="olx" autocomplete="off" value="{{ old('olx',$product->olx) }}">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class=" form-group col-md">
-                                <label for="description">Deksripsi</label> <label class="text-danger">*</label>
-                                <textarea class="form-control" name="description" id="description" rows="5">{{ $product->description }}</textarea>
-                                @error('description')
+                                <label for="deskripsi">Deksripsi</label> <label class="text-danger">*</label>
+                                <textarea class="form-control" name="deskripsi" id="deskripsi" rows="5">{{ old('deskripsi',$product->description) }}</textarea>
+                                @error('deskripsi')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -123,8 +109,8 @@ Edit Product - {{ config('app.name')}}
                         </div>
                         <div class="form-row">
                             <div class=" form-group col-md">
-                                <label for="specification">Spesifikasi</label> <label class="text-danger">*</label>
-                                <textarea class="form-control" name="specification" id="specification" rows="5">{{ $product->specification }}</textarea>
+                                <label for="specification">Spesifikasi</label>
+                                <textarea class="form-control" name="specification" id="specification" rows="5">{{ old('specification',$product->specification) }}</textarea>
                                 @error('specification')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -146,7 +132,7 @@ Edit Product - {{ config('app.name')}}
                 </div>
             </div>
             <div class="mb-3">
-                <h5 class="font-weight-bold d-inline-block">Foto </h5>
+                <h5 class="font-weight-bold d-inline-block m-0">Foto</h5>
                 <button id="addImageField" class="btn btn-success btn-sm float-right" data-toggle="modal" data-target="#newImageModal" type="button"><i class="fas fa-file-image"></i>Tambah foto baru</button>
             </div>
             <div class="row">
@@ -167,9 +153,9 @@ Edit Product - {{ config('app.name')}}
                                 @csrf
                                 <div class="input-group">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="image" name="image"
-                                            aria-describedby="image" required>
-                                        <label class="custom-file-label" for="image">Pilih foto</label>
+                                        <input type="file" class="custom-file-input" id="foto" name="foto"
+                                            aria-describedby="foto" required>
+                                        <label class="custom-file-label" for="foto">Pilih foto</label>
                                     </div>
                                     <div class="input-group-append">
                                         <button class="btn btn-outline-secondary btn-sm" type="submit">Unggah</button>
@@ -202,9 +188,9 @@ Edit Product - {{ config('app.name')}}
                 <div class="modal-body">
                     <div class="form-group input-group">
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="image" name="image"
-                                aria-describedby="image">
-                            <label class="custom-file-label" for="image">Pilih gambar</label>
+                            <input type="file" class="custom-file-input" id="foto" name="foto"
+                                aria-describedby="foto">
+                            <label class="custom-file-label" for="foto">Pilih gambar</label>
                         </div>
                     </div>
                 </div>
@@ -222,9 +208,46 @@ Edit Product - {{ config('app.name')}}
 @endsection
 @section('script')
 <script>
-    CKEDITOR.replace( 'description' );
+    CKEDITOR.replace( 'deskripsi' );
     CKEDITOR.replace( 'specification' );
+    let cat_id = $('#kategori').val();
+    let type = @json($product->type_id);
+    const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+    if (cat_id != '') {
+        $.ajax({
+            url: "{{ route('get-types') }}",
+            type: 'post',
+            data: {
+                _token: CSRF_TOKEN,
+                id: cat_id,
+                type: type
+            },
+            success: function(data) {
+                $("#jenis").html(data);
+            }
+        });
+    } else {
+        $("#jenis").html('<option value="">Pilih Jenis</option>');
+    }
     $(document).ready(function () {
+        $("#kategori").on("change", function() {
+            let category_id = $(this).val();
+            if (category_id != '') {
+                $.ajax({
+                    url: "{{ route('get-types') }}",
+                    type: 'post',
+                    data: {
+                        _token: CSRF_TOKEN,
+                        id: category_id
+                    },
+                    success: function(data) {
+                        $("#jenis").html(data);
+                    }
+                });
+            } else {
+                $("#jenis").html('<option value="">Pilih Jenis</option>');
+            }
+        });
         $(".btn-success").click(function () {
             var html = $(".clone").html();
             $(".increment").after(html);

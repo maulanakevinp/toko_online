@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Type;
+use Alert;
 use Illuminate\Http\Request;
 
 class TypeController extends Controller
@@ -35,7 +36,7 @@ class TypeController extends Controller
             'type' => $request->type
         ]);
 
-        Alert::success('Tipe berhasil ditambahkan', 'berhasil');
+        Alert::success('Jenis berhasil ditambahkan', 'berhasil');
         return redirect()->back();
     }
 
@@ -54,7 +55,7 @@ class TypeController extends Controller
 
         Type::where('id', $id)->update(['type' => $request->type]);
 
-        Alert::success('Tipe berhasil diperbarui', 'berhasil');
+        Alert::success('Jenis berhasil diperbarui', 'berhasil');
         return redirect()->back();
     }
 
@@ -67,7 +68,7 @@ class TypeController extends Controller
     public function destroy($id, $category)
     {
         Type::destroy($id);
-        Alert::success('Tipe berhasil dihapus', 'berhasil');
+        Alert::success('Jenis berhasil dihapus', 'berhasil');
         return redirect()->back();
     }
 }

@@ -28,8 +28,9 @@ class CategoryController extends Controller
     public function index()
     {
         $title = 'Bisnis';
+        $subtitle = 'Kategori';
         $categories = Category::paginate(15);
-        return view('categories.index', compact('categories','title'));
+        return view('categories.index', compact('categories','title','subtitle'));
     }
 
     public function getType(Request $request)
@@ -48,16 +49,16 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'category' => 'required',
-            'photo' => 'image|mimes:jpeg,png,gif,webp|max:2048',
+            'kategori' => 'required',
+            'foto' => 'image|mimes:jpeg,png,gif,webp|max:2048',
         ]);
 
         $category = new Category;
-        $category->category = $request->category;
-        $category->photo = $this->setImageUpload($request->file('photo'),'img/categories');
+        $category->category = $request->kategori;
+        $category->photo = $this->setImageUpload($request->file('foto'),'img/categories');
         $category->save();
 
-        Alert::success('Category berhasil ditambahkan', 'berhasil');
+        Alert::success('Kategori berhasil ditambahkan', 'berhasil');
         return redirect('/categories');
     }
 
@@ -70,9 +71,10 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $title = 'Bisnis';
+        $subtitle = 'Kategori';
         $category = Category::find($id);
         $types = Type::where('category_id', $id)->get();
-        return view('categories.edit', compact('category','types','title'));
+        return view('categories.edit', compact('category','types','title','subtitle'));
     }
 
     /**
@@ -87,18 +89,18 @@ class CategoryController extends Controller
         $category = Category::find($id);
 
         $request->validate([
-            'category' => 'required',
-            'photo' => 'image|mimes:jpeg,png,gif,webp|max:2048'
+            'kategori' => 'required',
+            'foto' => 'image|mimes:jpeg,png,gif,webp|max:2048'
         ]);
 
-        if ($request->file('photo')) {
-            $category->photo = $this->setImageUpload($request->file('photo'), 'img/categories',$category->photo);
+        if ($request->file('foto')) {
+            $category->photo = $this->setImageUpload($request->file('foto'), 'img/categories',$category->photo);
         }
         
-        $category->category = $request->category;
+        $category->category = $request->kategori;
         $category->save();
 
-        Alert::success('Category berhasil diperbarui', 'berhasil');
+        Alert::success('Kategori berhasil diperbarui', 'berhasil');
         return redirect()->back();
     }
 
@@ -114,7 +116,7 @@ class CategoryController extends Controller
         File::delete(public_path('img/categories/' . $category->photo));
         Category::destroy($id);
 
-        Alert::success('Category berhasil dihapus', 'berhasil');
+        Alert::success('Kategori berhasil dihapus', 'berhasil');
         return redirect('/categories');
     }
 }

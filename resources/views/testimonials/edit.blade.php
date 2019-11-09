@@ -1,13 +1,14 @@
 @extends('layouts.admin')
-@section('title','Edit Testimonial - Xylo Decoration')
-
+@section('title')
+Ubah Testimoni - {{ config('app.name') }}
+@endsection
 @section('container')
 
 <div class="container-fluid">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('testimonials.index') }}">Testimonials</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Edit Testimonial</li>
+            <li class="breadcrumb-item"><a href="{{ route('testimonials.index') }}">Testimoni</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Ubah Testimoni</li>
         </ol>
     </nav>
     <div class="row">
@@ -23,12 +24,12 @@
                         @method('patch')
                         @csrf
                         <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{ $testimonial->name }}">
+                            <label for="nama">Name</label>
+                            <input type="text" class="form-control" id="nama" name="nama" placeholder="Name" value="{{ $testimonial->name }}">
                         </div>
                         <div class="form-group">
-                            <label for="description">Description</label>
-                            <textarea class="form-control" name="description" id="description" rows="3" placeholder="Description">{{ $testimonial->description }}</textarea>
+                            <label for="deskripsi">Description</label>
+                            <textarea class="form-control" name="deskripsi" id="deskripsi" rows="3" placeholder="Description">{{ $testimonial->description }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="picture">Picture</label>
@@ -38,13 +39,13 @@
                                 </div>
                                 <div class="col-sm-9">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="photo" name="photo">
-                                        <label class="custom-file-label" for="photo">Choose file</label>
+                                        <input type="file" class="custom-file-input" id="foto" name="foto">
+                                        <label class="custom-file-label" for="foto">Pilih foto</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <button type="Submit" class="btn btn-success btn-block">Edit Testimonial</button>
+                        <button type="Submit" class="btn btn-success btn-block">Simpan</button>
                     </form>
                 </div>
             </div>

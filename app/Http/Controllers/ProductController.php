@@ -34,7 +34,9 @@ class ProductController extends Controller
         $subtitle = 'Produk';
         $categories = Category::all();
         $products = Product::paginate(15);
-        return view('products.index', compact('title','subtitle','categories','products'));
+        $cari = 'Cari Produk';
+
+        return view('products.index', compact('title','cari','subtitle','categories','products'));
     }
 
     public function search(Request $request)
@@ -43,24 +45,26 @@ class ProductController extends Controller
         $categories = Category::all();
         $products = Product::where('name', 'like', '%' . $keyword . '%')->paginate(15);
         $title = 'Bisnis';
-        $subtitle = 'Cari Produk';
+        $subtitle = 'Produk';
+        $cari = 'Cari Produk';
 
-        return view('products.index', compact('title','subtitle', 'categories', 'products'));
+        return view('products.index', compact('title','subtitle','cari', 'categories', 'products'));
     }
 
     public function category($cat)
     {
         $cat = str_replace('-', ' ', $cat);
         $categories = Category::all();
-        $category = Category::where('category', $cat)->first();
-        $products = Product::whereHas('type',function($q) use ($category){
-            $q->whereCategoryId($category->id);
+        $kategori = Category::where('category', $cat)->first();
+        $products = Product::whereHas('type',function($q) use ($kategori){
+            $q->whereCategoryId($kategori->id);
         })->paginate(15);
-        $types = Type::where('category_id', $category->id)->get();
-        $subtitle = $category->category;
+        $types = Type::where('category_id', $kategori->id)->get();
+        $subtitle = 'Produk';
         $title = 'Bisnis';
+        $cari = 'Cari Produk';
 
-        return view('products.category', compact('title','subtitle', 'categories', 'products','types'));
+        return view('products.category', compact('title','cari','subtitle','kategori', 'categories', 'products','types'));
     }
 
     public function type($id, $cat)
@@ -70,20 +74,31 @@ class ProductController extends Controller
         $category = Category::where('category', $cat)->first();
         $products = Product::where('type_id', $id)->paginate(15);
         $types = Type::where('category_id', $category->id)->get();
-        $type = Type::find($id);
-        $subtitle = $type->type;
+        $jenis = Type::find($id);
+        $subtitle = 'Produk';
         $title = 'Bisnis';
-        return view('products.type', compact('title','subtitle', 'categories', 'products', 'types'));
+        $cari = 'Cari Produk';
+
+        return view('products.type', compact('title','cari','subtitle','jenis', 'categories', 'products', 'types'));
     }
 
     public function getTypes(Request $request)
     {
-        $id = $request->id;
-        $types = Type::where('category_id', $id)->get();
-
-        echo "<option value=''> Select Type </option>";
-        foreach ($types as $type) {
-            echo "<option value='" . $type['id'] . "'>" . $type['type'] . "</option>";
+        $types = Type::where('category_id', $request->id)->get();
+        if($request->type){
+            echo "<option value=''>Pilih Jenis</option>";
+            foreach ($types as $type) {
+                if ($type->id == $request->type) {
+                    echo "<option selected='selected' value='" . $type['id'] . "'>" . $type['type'] . "</option>";
+                }else {
+                    echo "<option value='" . $type['id'] . "'>" . $type['type'] . "</option>";
+                }
+            }
+        } else{
+            echo "<option value=''>Pilih Jenis</option>";
+            foreach ($types as $type) {
+                echo "<option value='" . $type['id'] . "'>" . $type['type'] . "</option>";
+            }
         }
     }
 
@@ -95,8 +110,9 @@ class ProductController extends Controller
     public function create()
     {
         $title = 'Bisnis';
+        $subtitle = 'Produk';
         $categories = Category::all();
-        return view('products.create', compact('categories','title'));
+        return view('products.create', compact('categories','subtitle','title'));
     }
 
     /**
@@ -108,26 +124,26 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'          => 'required',
-            'price'         => 'required|numeric',
-            'category'      => 'required',
-            'type'          => 'required',
-            'description'   => 'required',
-            'images'        => ['required', new uploadImage($request, 'images')]
+            'nama'          => 'required',
+            'harga'         => 'required|numeric',
+            'kategori'      => 'required',
+            'jenis'         => 'required',
+            'deskripsi'     => 'required',
+            'foto'          => ['required', new uploadImage($request, 'foto')]
         ]);
         
         $product = Product::create([
-            'name'          => $request->name,
-            'type_id'       => $request->type,
-            'price'         => $request->price,
+            'name'          => $request->nama,
+            'type_id'       => $request->jenis,
+            'price'         => $request->harga,
             'bukalapak'     => $request->bukalapak,
-            'tokopedia'     => $request->price,
+            'tokopedia'     => $request->tokopedia,
             'olx'           => $request->olx,
-            'description'   => $request->description,
+            'description'   => $request->deskripsi,
             'specification' => $request->specification,
         ]);
 
-        foreach ($request->images as $img) {
+        foreach ($request->foto as $img) {
             $image = new Image;
             $image->product_id = $product->id;
             $image->image = $this->setImageUpload($img,'img/products');
@@ -146,10 +162,11 @@ class ProductController extends Controller
     public function edit($id)
     {
         $title = 'Bisnis';
+        $subtitle = 'Produk';
         $products = new Product;
         $product = $products->findOrFail($id);
         $categories = Category::all();
-        return view('products.edit', compact('title','product','categories','title'));
+        return view('products.edit', compact('title','subtitle','product','categories','title'));
     }
 
     /**
@@ -162,19 +179,22 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required',
-            'price' => 'required|numeric',
-            'category' => 'required',
-            'type' => 'required',
-            'description' => 'required',
+            'nama'      => 'required',
+            'harga'     => 'required|numeric',
+            'kategori'  => 'required',
+            'jenis'     => 'required',
+            'deskripsi' => 'required',
         ]);
 
         Product::where('id', $id)->update([
-            'name' => $request->name,
-            'description' => $request->description,
+            'name'          => $request->nama,
+            'bukalapak'     => $request->bukalapak,
+            'tokopedia'     => $request->tokopedia,
+            'olx'           => $request->olx,
+            'description'   => $request->deskripsi,
             'specification' => $request->specification,
-            'type_id' => $request->type,
-            'price' => $request->price,
+            'type_id'       => $request->jenis,
+            'price'         => $request->harga,
         ]);
 
         Alert::success('Produk berhasil diperbarui', 'berhasil');
@@ -202,9 +222,9 @@ class ProductController extends Controller
 
     public function addProductImage(Request $request, $id)
     {
-        $request->validate(['image' => ['required', 'image', 'mimes:jpeg,png', 'max:2048']]);
+        $request->validate(['foto' => ['required', 'image', 'mimes:jpeg,png', 'max:2048']]);
         $image = new Image;
-        $image->image = $this->setImageUpload($request->image,'img/products');
+        $image->image = $this->setImageUpload($request->foto,'img/products');
         $image->product_id = $id;
         $image->save();
         Alert::success('Foto berhasil ditambahkan', 'berhasil');
@@ -213,9 +233,9 @@ class ProductController extends Controller
 
     public function updateProductImage(Request $request,$id)
     {
-        $request->validate(['image' => ['required', 'image','mimes:jpeg,png','max:2048']]);
+        $request->validate(['foto' => ['required', 'image','mimes:jpeg,png','max:2048']]);
         $image = Image::findOrFail($id);
-        $image->image = $this->setImageUpload($request->image,'img/products',$image->image);
+        $image->image = $this->setImageUpload($request->foto,'img/products',$image->image);
         $image->save();
         Alert::success('Foto berhasil di perbarui', 'berhasil');
         return redirect()->back();

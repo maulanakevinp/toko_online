@@ -7,10 +7,7 @@
     <title> @yield('title') </title>
     <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
-    <link rel="stylesheet" href="{{ asset('fonts/fontawesome-all.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('fonts/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('fonts/simple-line-icons.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('fonts/fontawesome5-overrides.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
     <link rel="stylesheet" href="{{ asset('css/Map-Clean.css') }}">
     <link rel="stylesheet" href="{{ asset('css/smoothproducts.css') }}">
@@ -19,15 +16,14 @@
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
 
     <link rel="icon" href="{{ asset('img/navbar/gambar-background-kayu-hd.jpg') }}">
     <style>
         html {
             scroll-behavior: smooth;
+        }
+        .rotate-n-15{
+            transform: rotate(-15deg);
         }
     </style>
 </head>
@@ -42,7 +38,7 @@
                 <div class="navbar-brand-icon rotate-n-15">
                     <i class="fas fa-chair"></i>
                 </div>
-                <div class="navbar-brand-text mx-3">Xylo Decoration</div>
+                <div class="navbar-brand-text mx-3">{{ config('app.name') }}</div>
             </a>
             <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
                 <span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span>

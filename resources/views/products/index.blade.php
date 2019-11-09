@@ -6,23 +6,6 @@
 @section('container')
 <section class="clean-block clean-catalog">
     <div class="container">
-
-        <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">{{ 'Produk' }}</h1>
-            @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            @if (session('failed'))
-                <div class="alert alert-danger">
-                    {{ session('failed') }}
-                </div>
-            @endif
-        </div>
-
         <div class="row">
             <div class="col-md-3 mb-3">
                 <a href="{{ route('products.create') }}" class="btn btn-primary mb-3">Tambah produk baru</a>
@@ -43,12 +26,12 @@
             <div class="col-md-3 mb-3">
                 <form action="{{ route('search-products') }}" method="get">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search Products" name="keyword" autocomplete="off" value="{{ old('keyword') }}">
+                        <input type="text" class="form-control" placeholder="Cari produk" name="keyword" autocomplete="off" value="{{ request('keyword') }}">
                         <div class="input-group-append">
                             <input class="btn btn-primary" type="submit" value="Search">
                         </div>
                     </div>
-                    @if ($subtitle == 'Cari Produk')
+                    @if ($cari == 'Cari Produk')
                         <p class="ml-2 mt-2">
                             Hasil :  {{ $products->count() }}
                         </p>

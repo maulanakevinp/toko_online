@@ -80,12 +80,12 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Yakin ingin logout?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">klik "Logout" apabila anda siap untuk mengakhiri sesi anda.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <a class="btn btn-primary" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -99,8 +99,11 @@
         </div>
     </div>
 
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     @include('sweet::alert')
+
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -111,30 +114,12 @@
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
     @yield('script')
+
     <script>
     $(document).ready(function() {
         $(".custom-file-input").on("change", function() {
             var fileName = $(this).val().split("\\").pop();
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-        });
-        $("#category").on("change", function() {
-            const category_id = $(this).val();
-            const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            if (category_id != '') {
-                $.ajax({
-                    url: "{{ route('get-types') }}",
-                    type: 'post',
-                    data: {
-                        _token: CSRF_TOKEN,
-                        id: category_id
-                    },
-                    success: function(data) {
-                        $("#type").html(data);
-                    }
-                });
-            } else {
-                $("#type").html('<option value=""> Select Type </option>');
-            }
         });
         $("#categorySearch").on("change", function() {
                 const category = $(this).val();
@@ -146,46 +131,16 @@
                     document.location.href = "{{ route('products.index')}}";
                 }
             });
-            $("#typeSearch").on("change", function() {
-                const category = $("#categorySearch").val();
-                const type = $(this).val();
-                const cat = category.replace(/ /g,"-");
+        $("#typeSearch").on("change", function() {
+            const category = $("#categorySearch").val();
+            const type = $(this).val();
+            const cat = category.replace(/ /g,"-");
 
-                if (type != '') {
-                    document.location.href = "{{ url('') }}/p/" + type + "/" +  cat.toLowerCase();
-                } else {
-                    document.location.href = "{{ url('') }}/p/" + cat.toLowerCase();
-                }
-            });
-        $('.addTypeModal').on('click', function() {
-            $('#TypeModalLabel').html('Add New Type');
-            const category = $(this).data('category');
-            $('.modal-footer button[type=submit]').html('Add Type');
-            $('#form').attr('action', "{{ url('types') }}/" + category );
-            $('#method-type').val('post');
-        });
-        $('.editTypeModal').on('click', function() {
-            const id = $(this).data('id');
-            const category = $(this).data('category');
-            const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            $('#TypeModalLabel').html('Edit Type');
-            $('.modal-footer button[type=submit]').html('Edit Type');
-            $('#form').attr('action', "{{ url('types') }}/" + id + "/" + category );
-            $('#method-type').val('patch');
-
-            $.ajax({
-                url: "{{ route('get-type') }}",
-                data: {
-                    _token: CSRF_TOKEN,
-                    id: id
-                },
-                method: 'post',
-                dataType: 'json',
-                success: function(data) {
-                    $('#type').val(data.type);
-                }
-            });
-
+            if (type != '') {
+                document.location.href = "{{ url('') }}/p/" + type + "/" +  cat.toLowerCase();
+            } else {
+                document.location.href = "{{ url('') }}/p/" + cat.toLowerCase();
+            }
         });
     });
     </script>

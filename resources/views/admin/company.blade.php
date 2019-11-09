@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title','Company - Xylo Decoration')
+@section('title','Perusahaan - Xylo Decoration')
 
 @section('container')
 
@@ -9,19 +9,7 @@
     
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Company</h1>
-            
-        @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if (session('failed'))
-            <div class="alert alert-danger">
-                {{ session('failed') }}
-            </div>
-        @endif
+        <h1 class="h3 mb-0 text-gray-800">Perusahaan</h1>
     </div>
     
     <form action=" {{ route('update-company', ['id' => $company->id]) }} " method="post">
@@ -31,40 +19,40 @@
             <div class="col-lg-6">
                 <div class="card shadow h-100">
                     <div class="card-header">
-                        <h5 class="m-0 pt-1 font-weight-bold text-black-50">Edit Contact</h5>
+                        <h5 class="m-0 pt-1 font-weight-bold text-black-50">Ubah Kontak</h5>
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value=" {{ $company->name }} ">
-                            @error('name')
+                            <label for="nama_perusahaan">Nama Perusahaan</label>
+                            <input type="text" class="form-control @error('nama_perusahaan') is-invalid @enderror" id="nama_perusahaan" name="nama_perusahaan" value=" {{ $company->name }} ">
+                            @error('nama_perusahaan')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="address">Address</label>
-                            <input type="text" class="form-control @error('address') is-invalid @enderror" id="address" name="address" value=" {{ $company->address }} ">
-                            @error('address')
+                            <label for="alamat">Alamat</label>
+                            <input type="text" class="form-control @error('alamat') is-invalid @enderror" id="alamat" name="alamat" value=" {{ $company->address }} ">
+                            @error('alamat')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="phone_number">Phone Number</label>
-                            <input type="text" class="form-control @error('phone_number') is-invalid @enderror" id="phone_number" name="phone_number" value=" {{ $company->phone_number }} ">
-                            @error('phone_number')
+                            <label for="nomor_telepon">Nomor Telepon</label>
+                            <input type="text" class="form-control @error('nomor_telepon') is-invalid @enderror" id="nomor_telepon" name="nomor_telepon" value=" {{ $company->phone_number }} ">
+                            @error('nomor_telepon')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="whatsapp_number">WhatsApp Number</label>
-                            <input type="text" class="form-control @error('whatsapp_number') is-invalid @enderror" id="whatsapp_number" name="whatsapp_number" value=" {{ $company->whatsapp_number }} ">
-                            @error('whatsapp_number')
+                            <label for="nomor_whatsapp">Nomor Whatsapp</label>
+                            <input type="text" class="form-control @error('nomor_whatsapp') is-invalid @enderror" id="nomor_whatsapp" name="nomor_whatsapp" value=" {{ $company->whatsapp_number }} ">
+                            @error('nomor_whatsapp')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
@@ -85,7 +73,7 @@
             <div class="col-lg-6">
                 <div class="card shadow h-100">
                     <div class="card-header">
-                        <h5 class="m-0 pt-1 font-weight-bold text-black-50">Edit Link</h5>
+                        <h5 class="m-0 pt-1 font-weight-bold text-black-50">Ubah Link</h5>
                     </div>
                     <div class="card-body">
                         <div class="form-group">
@@ -141,11 +129,11 @@
             <div class="col-lg">
                 <div class="card shadow h-100">
                     <div class="card-header">
-                        <h5 class="m-0 pt-1 font-weight-bold text-black-50">Edit Utilites</h5>
+                        <h5 class="m-0 pt-1 font-weight-bold text-black-50">Edit Utilitas</h5>
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="Maps">Maps</label>
+                            <label for="Maps">Maps</label> <a target="_blank" href="https://drive.google.com/file/d/1sh6od2RsqPijyiu6md2TrHnVUzUWIM3L/view?usp=sharing">Tutorial klik disini</a>
                             <textarea class="form-control @error('maps') is-invalid @enderror" name="maps" id="maps" rows="5">{{ $company->maps }}</textarea>
                             @error('maps')
                             <div class="invalid-feedback">
@@ -154,18 +142,18 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="testimonial">Description Testimonial</label>
-                            <textarea class="form-control @error('testimonial') is-invalid @enderror" name="testimonial" id="testimonial" rows="5">{{ $company->testimonial }}</textarea>
-                            @error('testimonial')
+                            <label for="deskripsi_testimoni">Deskripsi Testimoni</label>
+                            <textarea class="form-control @error('deskripsi_testimoni') is-invalid @enderror" name="deskripsi_testimoni" id="deskripsi_testimoni" rows="5">{{ $company->testimonial }}</textarea>
+                            @error('deskripsi_testimoni')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="description">Description Company</label>
-                            <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="description" rows="5" >{{ $company->description }}</textarea>
-                            @error('description')
+                            <label for="deskripsi_perusahaan">Deskripsi Perusahaan</label>
+                            <textarea class="form-control @error('deskripsi_perusahaan') is-invalid @enderror" name="deskripsi_perusahaan" id="deskripsi_perusahaan" rows="5" >{{ $company->description }}</textarea>
+                            @error('deskripsi_perusahaan')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
@@ -177,7 +165,7 @@
         </div>
 
         <div class="form-group mt-3">
-            <button type="submit" class="btn btn-success btn-block">Edit</button>
+            <button type="submit" class="btn btn-success btn-block">Simpan</button>
         </div>
     </form>
 

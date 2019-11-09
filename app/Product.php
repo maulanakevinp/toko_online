@@ -20,6 +20,11 @@ class Product extends Model
         return $this->hasMany('App\Image');
     }
 
+    public function reviews()
+    {
+        return $this->hasMany('App\Review');
+    }
+
     public function type()
     {
         return $this->belongsTo('App\Type');

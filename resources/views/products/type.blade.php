@@ -6,12 +6,6 @@
 @section('container')
 <section class="clean-block clean-catalog">
     <div class="container">
-
-        <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">{{ $subtitle }}</h1>
-        </div>
-
         <div class="row">
             <div class="col-md-3 mb-3">
                 <a href="{{ route('products.create') }}" class="btn btn-primary mb-3">Tambah produk baru</a>
@@ -30,9 +24,9 @@
             </div>
             <div class="col-md-3 mb-3">
                 <select class="form-control" name="type" id="typeSearch">
-                    <option value="">Pilih tipe</option>
+                    <option value="">Pilih jenis</option>
                     @foreach ($types as $type)
-                        @if ($type->type == $subtitle)
+                        @if ($type->type == $jenis->type)
                             <option selected value="{{ $type->id }}">{{ $type->type }}</option>
                         @else
                             <option value="{{ $type->id }}">{{ $type->type }}</option>
@@ -43,7 +37,7 @@
             <div class="col-md-3 mb-3">
                 <form action="{{ route('search-products') }}" method="get">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search Products" name="keyword" autocomplete="off" value="{{ old('keyword') }}">
+                        <input type="text" class="form-control" placeholder="Cari produk" name="keyword" autocomplete="off" value="{{ old('keyword') }}">
                         <div class="input-group-append">
                             <input class="btn btn-primary" type="submit" value="Search">
                         </div>

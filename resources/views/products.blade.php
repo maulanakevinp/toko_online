@@ -1,9 +1,9 @@
 @extends('layouts.master')
 @section('title')
-{{ $title }} - Xylo Decoration
+{{ $title }} - {{ config('app.name') }}
 @endsection
 @section('content')
-<main class="catalog-page" style="margin-top: 62px">
+<main class="catalog-page" style="margin-top: 84px">
     <section class="clean-block clean-catalog dark pt-5">
         <div class="container">
             <div class="content">

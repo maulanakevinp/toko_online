@@ -24,36 +24,37 @@ class UtilityController extends Controller
     {
         $company = Company::find(1);
         $title = 'Utilitas';
-        return view('admin.company', compact('company','title'));
+        $subtitle = 'Perusahaan';
+        return view('admin.company', compact('company','subtitle','title'));
     }
 
     public function updateCompany(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required',
-            'description' => 'required',
-            'address' => 'required',
-            'phone_number' => 'required',
-            'whatsapp_number' => 'required',
-            'email' => 'required|email',
-            'maps' => 'required',
-            'testimonial' => 'required',
+            'nama_perusahaan'       => 'required',
+            'deskripsi_perusahaan'  => 'required',
+            'alamat'                => 'required',
+            'nomor_telepon'         => 'required',
+            'nomor_whatsapp'        => 'required',
+            'email'                 => 'required|email',
+            'maps'                  => 'required',
+            'deskripsi_testimoni'   => 'required',
         ]);
 
         Company::where('id', $id)->update([
-            'name' => $request->name,
-            'description' => $request->description,
-            'bukalapak' => $request->bukalapak,
-            'tokopedia' => $request->tokopedia,
-            'olx' => $request->olx,
-            'whatsapp' => $request->whatsapp,
-            'line' => $request->line,
-            'address' => $request->address,
-            'phone_number' => $request->phone_number,
-            'whatsapp_number' => $request->whatsapp_number,
-            'email' => $request->email,
-            'maps' => $request->maps,
-            'testimonial' => $request->testimonial,
+            'name'              => $request->nama_perusahaan,
+            'description'       => $request->deskripsi_perusahaan,
+            'bukalapak'         => $request->bukalapak,
+            'tokopedia'         => $request->tokopedia,
+            'olx'               => $request->olx,
+            'whatsapp'          => $request->whatsapp,
+            'line'              => $request->line,
+            'address'           => $request->alamat,
+            'phone_number'      => $request->nomor_telepon,
+            'whatsapp_number'   => $request->nomor_whatsapp,
+            'email'             => $request->email,
+            'maps'              => $request->maps,
+            'testimonial'       => $request->deskripsi_testimoni,
         ]);
 
         Alert::success('Perusahaan berhasil diperbarui', 'berhasil');
@@ -64,18 +65,19 @@ class UtilityController extends Controller
     {
         $company = Company::find(1);
         $title = 'Utilitas';
+        $subtitle = 'Slideshow';
 
-        return view('admin.home-picture', compact('company','title'));
+        return view('admin.home-picture', compact('company','subtitle','title'));
     }
 
     public function updateHomePicture(Request $request, $id)
     {
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,gif,webp|max:2048'
+            'foto' => 'required|image|mimes:jpeg,png,gif,webp|max:2048'
         ]);
 
         $image = Image::findOrFail($id);
-        $image->image = $this->setImageUpload($request->file('image'), 'img/carousel', $image->image);
+        $image->image = $this->setImageUpload($request->file('foto'), 'img/carousel', $image->image);
         $image->save();
 
         Alert::success('Gambar berhasil diperbarui', 'berhasil');
@@ -85,12 +87,12 @@ class UtilityController extends Controller
     public function addHomePicture(Request $request)
     {
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,gif,webp|max:2048'
+            'foto' => 'required|image|mimes:jpeg,png,gif,webp|max:2048'
         ]);
 
         $image = new Image;
         $image->company_id = 1;
-        $image->image = $this->setImageUpload($request->file('image'), 'img/carousel');
+        $image->image = $this->setImageUpload($request->file('foto'), 'img/carousel');
         $image->save();
 
         Alert::success('Gambar berhasil ditambahkan', 'berhasil');
