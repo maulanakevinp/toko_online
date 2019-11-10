@@ -64,7 +64,6 @@
                                     <div class="price">
                                         <h3>Rp. {{ number_format($product->price, 2, ',', '.') }}<br></h3>
                                     </div>
-                                    <button class="btn btn-primary" type="button"><i class="icon-basket"></i>Tambahkan ke keranjang</button>
                                 </div>
                             </div>
                         </div>
