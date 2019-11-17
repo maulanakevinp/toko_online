@@ -77,7 +77,7 @@
             </div>
         </div>
         <div class="footer-copyright">
-            <span class="text-white">Copyright &copy; {{ $company->name }}. All Right Reserved <?= date('Y') ?></span>
+            <span class="text-white">Copyright &copy; {{ $company->name }}. All Right Reserved {{ now()->year }}</span>
         </div>
     </footer>
     <script src="{{ asset('js/jquery.min.js') }}"></script>
@@ -85,6 +85,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
     <script src="{{ asset('js/smoothproducts.min.js') }}"></script>
     <script src="{{ asset('js/theme.js') }}"></script>
+    @stack('scripts')
     <script>
         $(document).ready(function() {
             $("#categorySearch").on("change", function() {

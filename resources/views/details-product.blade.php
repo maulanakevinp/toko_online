@@ -72,12 +72,9 @@
                 <div class="product-info">
                     <div>
                         <ul class="nav nav-tabs" id="myTab">
-                            <li class="nav-item"><a class="nav-link active" role="tab" data-toggle="tab" id="description-tab"
-                                    href="#description">Deskripsi</a></li>
-                            <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" id="specifications-tabs"
-                                    href="#specifications">Spesifikasi</a></li>
-                            <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" id="reviews-tab"
-                                    href="#reviews">Review</a></li>
+                            <li class="nav-item"><a class="nav-link active" role="tab" data-toggle="tab" id="description-tab" href="#description">Deskripsi</a></li>
+                            <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" id="specifications-tabs" href="#specifications">Spesifikasi</a></li>
+                            {{-- <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" id="reviews-tab" href="#reviews">Review</a></li> --}}
                         </ul>
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane active fade show description" role="tabpanel" id="description">
@@ -86,7 +83,7 @@
                             <div class="tab-pane fade show specifications" role="tabpanel" id="specifications">
                                 {!! $product->specification !!}
                             </div>
-                            <div class="tab-pane fade show" role="tabpanel" id="reviews">
+                            {{-- <div class="tab-pane fade show" role="tabpanel" id="reviews">
                                 @foreach ($product->reviews as $review)
                                     <div class="reviews">
                                         <div class="review-item">
@@ -131,7 +128,7 @@
                                         </div>
                                     </div>
                                 @endforeach
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
