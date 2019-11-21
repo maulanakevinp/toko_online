@@ -36,7 +36,7 @@ return [
     'date_format' => ':attribute tidak cocok dengan format :format.',
     'different' => ':attribute dan :other harus berbeda.',
     'digits' => ':attribute harus :digits digit.',
-    'digits_between' => ':attribute harus antara :min and :max digit.',
+    'digits_between' => ':attribute harus antara :min dan :max digit.',
     'dimensions' => ':attribute memiliki dimensi gambar yang tidak valid.',
     'distinct' => ':attribute memiliki nilai duplikat.',
     'email' => ':attribute Harus alamat e-mail yang valid.',

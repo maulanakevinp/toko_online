@@ -72,6 +72,7 @@ Route::get('/get-type', 'CategoryController@getType')->name('get-type');
 
 //Orders Controller
 Route::get('/orders/cart', 'OrdersController@cart')->name('orders.cart');
+Route::get('/orders/payment/{invoice}', 'OrdersController@payment')->name('orders.payment');
 Route::patch('/orders/update-qty', 'OrdersController@updateQty')->name('ajax.orders.update_qty');
 Route::resource('/orders', 'OrdersController');
 Route::post('/orders/{id}/add-to-chart', 'OrdersController@addToCart')->name('orders.add_to_cart');

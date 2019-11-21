@@ -49,10 +49,10 @@
                                                     $total = $total + $details['qty'] * $details['price'];
                                                 @endphp
                                             @endforeach
-                                            {{ $total }}
+                                            {{ number_format($total, 2, ',', '.') }}
                                         </span>
                                     </h4>
-                                    <button class="btn btn-primary btn-block btn-lg" type="button">Checkout</button>
+                                    <a href="{{ route('orders.create') }}" class="btn btn-primary btn-block btn-lg" type="button">Checkout</a>
                                 </div>
                             </div>
                         </div>
@@ -78,7 +78,7 @@
 @push('scripts')
     <script>
         $(document).ready(function () {
-            $('#qty').on('change',function () {
+            $('.quantity-input').on('change',function () {
                 let qty = $(this).val();
                 let id  = $(this).data('id');
                 console.log(qty);

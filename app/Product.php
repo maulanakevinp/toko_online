@@ -30,8 +30,8 @@ class Product extends Model
         return $this->belongsTo('App\Type');
     }
     
-    public function orderDetail()
+    public function orders()
     {
-        return $this->belongsToMany('App\OrderDetail');
+        return $this->belongsToMany('App\Order');
     }
 }

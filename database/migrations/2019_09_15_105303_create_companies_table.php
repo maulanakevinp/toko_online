@@ -15,7 +15,7 @@ class CreateCompaniesTable extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
+            $table->string('name',60);
             $table->text('description');
             $table->text('bukalapak')->nullable();
             $table->text('tokopedia')->nullable();
@@ -25,9 +25,11 @@ class CreateCompaniesTable extends Migration
             $table->text('address');
             $table->string('phone_number', 16);
             $table->string('whatsapp_number', 16);
-            $table->string('email');
+            $table->string('email',60);
             $table->text('maps');
             $table->text('testimonial');
+            $table->string('bca',30)->nullable();
+            $table->string('bni',30)->nullable();
         });
     }
 

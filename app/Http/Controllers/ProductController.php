@@ -34,7 +34,7 @@ class ProductController extends Controller
         $subtitle = 'Produk';
         $categories = Category::all();
         $products = Product::paginate(15);
-        $cari = 'Cari Produk';
+        $cari = '';
 
         return view('products.index', compact('title','cari','subtitle','categories','products'));
     }

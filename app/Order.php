@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    protected $fillable = ['invoice','name','email','phone','address','subtotal'];
+    protected $fillable = ['invoice','image','name','email','phone','address','subtotal'];
 
-    public function orderDetail()
+    public function products()
     {
-        return $this->belongsToMany('App\OrderDetail');
+        return $this->belongsToMany('App\Product');
     }
 }

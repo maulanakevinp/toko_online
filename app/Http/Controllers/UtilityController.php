@@ -31,14 +31,16 @@ class UtilityController extends Controller
     public function updateCompany(Request $request, $id)
     {
         $request->validate([
-            'nama_perusahaan'       => 'required',
+            'nama_perusahaan'       => 'required|max:60',
             'deskripsi_perusahaan'  => 'required',
             'alamat'                => 'required',
-            'nomor_telepon'         => 'required',
-            'nomor_whatsapp'        => 'required',
-            'email'                 => 'required|email',
+            'nomor_telepon'         => 'required|digits_between:6,13',
+            'nomor_whatsapp'        => 'required|digits_between:6,13',
+            'email'                 => 'required|email|max:60',
             'maps'                  => 'required',
             'deskripsi_testimoni'   => 'required',
+            'rekening_bca'          => 'nullable|digits_between:6,30',
+            'rekening_bni'          => 'nullable|digits_between:6,30',
         ]);
 
         Company::where('id', $id)->update([
@@ -55,6 +57,8 @@ class UtilityController extends Controller
             'email'             => $request->email,
             'maps'              => $request->maps,
             'testimonial'       => $request->deskripsi_testimoni,
+            'bca'               => $request->rekening_bca,
+            'bni'               => $request->rekening_bni,
         ]);
 
         Alert::success('Perusahaan berhasil diperbarui', 'berhasil');

@@ -54,7 +54,13 @@
                         <a class="nav-link" href="{{ route('orders.cart') }}">
                             <i class="fas fa-shopping-cart"></i>
                             @if (session('cart'))
-                                <span class="badge badge-primary" style="position: relative; top: -10px;">1</span>
+                                @php
+                                $i=0;
+                                    foreach (session('cart') as $id => $details) {
+                                        $i++;
+                                    }
+                                @endphp
+                                <span class="badge badge-primary" style="position: relative; top: -10px;">{{ $i }}</span>
                             @endif
                         </a>
                     </li>
@@ -63,7 +69,13 @@
                         <a class="nav-link" href="{{ route('orders.cart') }}">
                             <i class="fas fa-shopping-cart"></i>
                             @if (session('cart'))
-                                <span class="badge badge-primary" style="position: relative; top: -10px;">1</span>
+                                @php
+                                $i=0;
+                                    foreach (session('cart') as $id => $details) {
+                                        $i++;
+                                    }
+                                @endphp
+                                <span class="badge badge-primary" style="position: relative; top: -10px;">{{ $i }}</span>
                             @endif
                         </a>
                     </li>
@@ -79,10 +91,10 @@
         <div class="container text-center">
             <h4 class="text-white mb-3">Hubungi Kami</h4>
             <div><i class="fa fa-phone text-white mr-2 mb-2" style="font-size: 22px;height: 24px; width: 24.75px;"></i>
-                <a href="tel:{{$company->phone_number}}" target="_blank" class="text-white">{{$company->phone_number}}<br></a>
+                <a href="tel:{{$company->phone_number}}" target="_blank" class="text-white">{{phone_format($company->phone_number)}}<br></a>
             </div>
             <div><i class="fab fa-whatsapp text-white mr-2 mb-2" style="font-size: 22px;height: 24px; width: 24.75px;"></i>
-                <a href="{{$company->whatsapp}}" target="_blank" class="text-white">{{$company->whatsapp_number}}<br></a>
+                <a href="{{$company->whatsapp}}" target="_blank" class="text-white">{{phone_format($company->whatsapp_number)}}<br></a>
             </div>
             <div><i class="fas fa-mail-bulk text-white mr-2 mb-2" style="font-size: 22px;height: 24px; "></i>
                 <a href="mailto:{{$company->email}}" target="_blank" class="text-white">{{$company->email}}<br></a>

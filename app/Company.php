@@ -11,7 +11,7 @@ class Company extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'description', 'bukalapak', 'tokopedia', 'olx', 'whatsapp', 'line', 'address', 'phone_number', 'whatsapp_number', 'email', 'maps', 'testimonial', 'photo1'];
+    protected $fillable = ['name', 'description', 'bukalapak', 'tokopedia', 'olx', 'whatsapp', 'line', 'address', 'phone_number', 'whatsapp_number', 'email', 'maps', 'testimonial', 'bca', 'bni'];
 
     /**
      * Indicates if the model should be timestamped.
@@ -24,6 +24,4 @@ class Company extends Model
     {
         return $this->hasMany('App\Image');
     }
-
-    
 }
