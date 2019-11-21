@@ -60,9 +60,13 @@
                                         @endif
                                     </div>
                                 </div>
-                                <div class="summary">
+                                <div class="summary p-0 ">
                                     <div class="price">
                                         <h3>Rp. {{ number_format($product->price, 2, ',', '.') }}<br></h3>
+                                        <form action="{{ route('orders.add_to_cart',$product->id) }}" method="post">
+                                            @csrf
+                                            <button class="btn btn-primary btn-sm" type="submit"><i class="fas fa-shopping-cart"></i> Tambahkan</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -74,7 +78,7 @@
                         <ul class="nav nav-tabs" id="myTab">
                             <li class="nav-item"><a class="nav-link active" role="tab" data-toggle="tab" id="description-tab" href="#description">Deskripsi</a></li>
                             <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" id="specifications-tabs" href="#specifications">Spesifikasi</a></li>
-                            {{-- <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" id="reviews-tab" href="#reviews">Review</a></li> --}}
+                            <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" id="reviews-tab" href="#reviews">Review</a></li>
                         </ul>
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane active fade show description" role="tabpanel" id="description">
@@ -83,7 +87,7 @@
                             <div class="tab-pane fade show specifications" role="tabpanel" id="specifications">
                                 {!! $product->specification !!}
                             </div>
-                            {{-- <div class="tab-pane fade show" role="tabpanel" id="reviews">
+                            <div class="tab-pane fade show" role="tabpanel" id="reviews">
                                 @foreach ($product->reviews as $review)
                                     <div class="reviews">
                                         <div class="review-item">
@@ -128,7 +132,7 @@
                                         </div>
                                     </div>
                                 @endforeach
-                            </div> --}}
+                            </div>
                         </div>
                     </div>
                 </div>

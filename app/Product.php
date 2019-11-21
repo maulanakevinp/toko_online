@@ -29,4 +29,9 @@ class Product extends Model
     {
         return $this->belongsTo('App\Type');
     }
+    
+    public function orderDetail()
+    {
+        return $this->belongsToMany('App\OrderDetail');
+    }
 }

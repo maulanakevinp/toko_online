@@ -14,11 +14,12 @@ class HomeController extends Controller
 {
     public function index()
     {
+        $title = 'Home';
         $company = Company::find(1);
         $testimonials = Testimonial::all();
         $categories = Category::all();
 
-        return view('index', compact('company','testimonials','categories'));
+        return view('index', compact('title','company','testimonials','categories'));
     }
 
     public function products()

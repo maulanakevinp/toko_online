@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{ asset('css/smoothproducts.css') }}">
     <link rel="stylesheet" href="{{ asset('css/Testimonials.css') }}">
     <link rel="stylesheet" href="{{ asset('css/mystyle.css') }}">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -48,6 +49,25 @@
                     <li class="nav-item" role="presentation"><a class="nav-link" href="#contact-us">Hubungi kami</a></li>
                     <li class=" nav-item" role="presentation"><a class="nav-link" href="{{ url('') }}#about">About</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" href="{{ url('') }}#client">Client</a></li>
+                    @if ($title == 'Keranjang')
+                    <li class="nav-item active" role="presentation">
+                        <a class="nav-link" href="{{ route('orders.cart') }}">
+                            <i class="fas fa-shopping-cart"></i>
+                            @if (session('cart'))
+                                <span class="badge badge-primary" style="position: relative; top: -10px;">1</span>
+                            @endif
+                        </a>
+                    </li>
+                    @else
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" href="{{ route('orders.cart') }}">
+                            <i class="fas fa-shopping-cart"></i>
+                            @if (session('cart'))
+                                <span class="badge badge-primary" style="position: relative; top: -10px;">1</span>
+                            @endif
+                        </a>
+                    </li>
+                    @endif
                 </ul>
             </div>
         </div>
@@ -80,6 +100,8 @@
             <span class="text-white">Copyright &copy; {{ $company->name }}. All Right Reserved {{ now()->year }}</span>
         </div>
     </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    @include('sweet::alert')
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>

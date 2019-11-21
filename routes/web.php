@@ -69,3 +69,9 @@ Route::patch('/types/{id}/{category}', 'TypeController@update')->name('types.upd
 Route::delete('/types/{id}/{category}', 'TypeController@destroy')->name('types.destroy');
 Route::post('/get-type', 'CategoryController@getType')->name('get-type');
 Route::get('/get-type', 'CategoryController@getType')->name('get-type');
+
+//Orders Controller
+Route::get('/orders/cart', 'OrdersController@cart')->name('orders.cart');
+Route::patch('/orders/update-qty', 'OrdersController@updateQty')->name('ajax.orders.update_qty');
+Route::resource('/orders', 'OrdersController');
+Route::post('/orders/{id}/add-to-chart', 'OrdersController@addToCart')->name('orders.add_to_cart');
