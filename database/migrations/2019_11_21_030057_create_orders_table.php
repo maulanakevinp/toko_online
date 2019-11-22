@@ -22,6 +22,9 @@ class CreateOrdersTable extends Migration
             $table->string('phone');
             $table->string('address');
             $table->integer('subtotal');
+            $table->tinyInteger('verify')->nullable();
+            $table->text('reason')->nullable();
+            $table->tinyInteger('status')->nullable();
             $table->timestamps();
         });
     }

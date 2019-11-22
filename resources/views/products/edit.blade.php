@@ -36,17 +36,26 @@ Ubah Produk - {{ config('app.name')}}
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="nama">Nama</label> <label class="text-danger">*</label>
-                                <input type="text" class="form-control" name="nama" autocomplete="off" value="{{ old('name',$product->name) }}">
+                                <input type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" autocomplete="off" value="{{ old('name',$product->name) }}">
                                 @error('nama')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
                                 @enderror
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                 <label for="harga">Harga</label> <label class="text-danger">*</label>
-                                <input type="number" class="form-control" name="harga" autocomplete="off" value="{{ old('harga',$product->price) }}">
+                                <input type="text" class="form-control @error('harga') is-invalid @enderror" name="harga" autocomplete="off" value="{{ old('harga',$product->price) }}">
                                 @error('harga')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="stok">Stok</label> <label class="text-danger">*</label>
+                                <input type="number" class="form-control @error('stok') is-invalid @enderror" name="stok" autocomplete="off" value="{{ old('stok',$product->stock) }}">
+                                @error('stok')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -56,7 +65,7 @@ Ubah Produk - {{ config('app.name')}}
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="kategori">Kategori</label> <label class="text-danger">*</label>
-                                <select id="kategori" name="kategori" class="form-control">
+                                <select id="kategori" name="kategori" class="form-control @error('kategori') is-invalid @enderror">
                                     <option value="">Pilih Kategori</option>
                                     @foreach ($categories as $category)
                                     @if($product->type->category_id == $category->id)
@@ -74,7 +83,7 @@ Ubah Produk - {{ config('app.name')}}
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="jenis">Jenis</label> <label class="text-danger">*</label>
-                                <select id="jenis" name="jenis" class="form-control"></select>
+                                <select id="jenis" name="jenis" class="form-control @error('jenis') is-invalid @enderror"></select>
                                 @error('jenis')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -85,21 +94,21 @@ Ubah Produk - {{ config('app.name')}}
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="bukalapak">Bukalapak</label>
-                                <input type="text" class="form-control" name="bukalapak" autocomplete="off" value="{{ old('bukalapak',$product->bukalapak) }}">
+                                <input type="text" class="form-control @error('bukalapak') is-invalid @enderror" name="bukalapak" autocomplete="off" value="{{ old('bukalapak',$product->bukalapak) }}">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="tokopedia">Tokopedia</label>
-                                <input type="text" class="form-control" name="tokopedia" autocomplete="off" value="{{ old('tokopedia',$product->tokopedia) }}">
+                                <input type="text" class="form-control @error('tokopedia') is-invalid @enderror" name="tokopedia" autocomplete="off" value="{{ old('tokopedia',$product->tokopedia) }}">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="olx">OLX</label>
-                                <input type="text" class="form-control" name="olx" autocomplete="off" value="{{ old('olx',$product->olx) }}">
+                                <input type="text" class="form-control @error('olx') is-invalid @enderror" name="olx" autocomplete="off" value="{{ old('olx',$product->olx) }}">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class=" form-group col-md">
                                 <label for="deskripsi">Deksripsi</label> <label class="text-danger">*</label>
-                                <textarea class="form-control" name="deskripsi" id="deskripsi" rows="5">{{ old('deskripsi',$product->description) }}</textarea>
+                                <textarea class="form-control @error('deskripsi') is-invalid @enderror" name="deskripsi" id="deskripsi" rows="5">{{ old('deskripsi',$product->description) }}</textarea>
                                 @error('deskripsi')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -110,7 +119,7 @@ Ubah Produk - {{ config('app.name')}}
                         <div class="form-row">
                             <div class=" form-group col-md">
                                 <label for="specification">Spesifikasi</label>
-                                <textarea class="form-control" name="specification" id="specification" rows="5">{{ old('specification',$product->specification) }}</textarea>
+                                <textarea class="form-control @error('specification') is-invalid @enderror" name="specification" id="specification" rows="5">{{ old('specification',$product->specification) }}</textarea>
                                 @error('specification')
                                 <div class="invalid-feedback">
                                     {{ $message }}

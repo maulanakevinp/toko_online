@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Support\Facades\Hash;
 use File;
 use Alert;
+use App\Order;
 
 class AdminController extends Controller
 {
@@ -28,7 +29,10 @@ class AdminController extends Controller
     public function index()
     {
         $title = 'Dashboard';
-        return view('admin.dashboard', compact('title'));
+        $orderEntry = Order::whereVerify(null)->count();
+        $orderProcessed = Order::whereVerify(1)->count();
+        $orderFinished = Order::whereStatus(1)->count();
+        return view('admin.dashboard', compact('title','orderEntry','orderProcessed','orderFinished'));
     }
 
     public function show()

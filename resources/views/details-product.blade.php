@@ -45,6 +45,7 @@
                         <div class="col-md-6">
                             <div class="info">
                                 <h1 class="h3">{{ $title }}</h1>
+                                <span class="text-muted">Stok tersisa : {{ $product->stock }} produk</span>
                                 <hr>
                                 <h4>Pesan Melalui</h4>
                                 <div class="clean-block add-on social-icons">

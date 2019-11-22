@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="{{ asset('fonts/fontawesome5-overrides.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
+    <link rel="stylesheet" href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/Map-Clean.css') }}">
     <link rel="stylesheet" href="{{ asset('css/smoothproducts.css') }}">
     <link rel="stylesheet" href="{{ asset('css/Testimonials.css') }}">
@@ -113,6 +114,10 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+
+    <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+    
     @yield('script')
 
     <script>

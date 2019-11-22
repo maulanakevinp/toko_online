@@ -13,7 +13,7 @@ class Product extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'type_id', 'price', 'bukalapak', 'tokopedia', 'olx', 'description','specification'];
+    protected $fillable = ['name', 'stock', 'type_id', 'price', 'bukalapak', 'tokopedia', 'olx', 'description','specification'];
 
     public function images()
     {

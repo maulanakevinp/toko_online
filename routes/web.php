@@ -71,8 +71,13 @@ Route::post('/get-type', 'CategoryController@getType')->name('get-type');
 Route::get('/get-type', 'CategoryController@getType')->name('get-type');
 
 //Orders Controller
+Route::get('/orders/entry/ajax/', 'OrdersController@getOrderEntry')->name('ajax.get.order_entry');
+Route::get('/orders/processed/ajax/', 'OrdersController@getOrderProcessed')->name('ajax.get.order_processed');
+Route::get('/orders/finished/ajax/', 'OrdersController@getOrderFinished')->name('ajax.get.order_finished');
 Route::get('/orders/cart', 'OrdersController@cart')->name('orders.cart');
 Route::get('/orders/payment/{invoice}', 'OrdersController@payment')->name('orders.payment');
+Route::put('/orders/{order}/approving', 'OrdersController@approving')->name('orders.approving');
+Route::patch('/orders/{order}/rejecting', 'OrdersController@rejecting')->name('orders.rejecting');
 Route::patch('/orders/update-qty', 'OrdersController@updateQty')->name('ajax.orders.update_qty');
 Route::resource('/orders', 'OrdersController');
 Route::post('/orders/{id}/add-to-chart', 'OrdersController@addToCart')->name('orders.add_to_cart');

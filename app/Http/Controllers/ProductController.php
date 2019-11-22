@@ -124,8 +124,9 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama'          => 'required',
-            'harga'         => 'required|numeric',
+            'nama'          => 'required|max:60',
+            'harga'         => 'required|numeric|min:0',
+            'stok'          => 'required|numeric|min:0',
             'kategori'      => 'required',
             'jenis'         => 'required',
             'deskripsi'     => 'required',
@@ -134,6 +135,7 @@ class ProductController extends Controller
         
         $product = Product::create([
             'name'          => $request->nama,
+            'stock'         => $request->stok,
             'type_id'       => $request->jenis,
             'price'         => $request->harga,
             'bukalapak'     => $request->bukalapak,
@@ -180,7 +182,8 @@ class ProductController extends Controller
     {
         $request->validate([
             'nama'      => 'required',
-            'harga'     => 'required|numeric',
+            'harga'     => 'required|numeric|min:0',
+            'stok'      => 'required|numeric|min:0',
             'kategori'  => 'required',
             'jenis'     => 'required',
             'deskripsi' => 'required',
@@ -188,6 +191,7 @@ class ProductController extends Controller
 
         Product::where('id', $id)->update([
             'name'          => $request->nama,
+            'stock'         => $request->stok,
             'bukalapak'     => $request->bukalapak,
             'tokopedia'     => $request->tokopedia,
             'olx'           => $request->olx,

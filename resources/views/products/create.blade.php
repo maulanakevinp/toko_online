@@ -41,10 +41,19 @@ Tambah Produk - {{ config('app.name')}}
                                 </div>
                                 @enderror
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                 <label for="harga">Harga</label> <label class="text-danger">*</label>
                                 <input type="number" class="form-control @error('harga') is-invalid @enderror" name="harga" autocomplete="off" value="{{ old('harga') }}">
                                 @error('harga')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="stok">Stok</label> <label class="text-danger">*</label>
+                                <input type="number" class="form-control @error('stok') is-invalid @enderror" name="stok" autocomplete="off" value="{{ old('stok') }}">
+                                @error('stok')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -98,7 +107,7 @@ Tambah Produk - {{ config('app.name')}}
                         </div>
                         <div class="form-row">
                             <div class=" form-group col-md">
-                                <label for="deskripsi">Deskripsi</label>
+                                <label for="deskripsi">Deskripsi</label> <label class="text-danger">*</label>
                                 <textarea class="form-control @error('deskripsi') is-invalid @enderror" name="deskripsi" id="deskripsi" rows="5">{{ old('deskripsi') }}</textarea>
                                 @error('deskripsi')
                                 <div class="invalid-feedback">
