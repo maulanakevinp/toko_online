@@ -12,21 +12,10 @@
         <button class="btn btn-primary float-right" data-toggle="modal" data-target="#newImageModal">Tambah Gambar</button>
     </div>
 
-    <!-- Notification -->
-    <div class="row">
-        <div class="col-lg">
-            @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-        </div>
-    </div>
-
     <div class="row">
         @foreach ($company->images as $image)
         <div class="col-md-6 mb-3">
-            <div class="card">
+            <div class="card shadow h-100">
                 <div class="card-body">
                     <img class="mb-1" src="{{ asset('img/carousel/'. $image->image) }}" alt="{{ $image->image }}" width="100%" height="250px">
                     <form action="{{ route('destroy-home-picture' , ['id' => $image->id]) }}" method="post">
