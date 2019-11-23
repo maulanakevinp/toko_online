@@ -143,8 +143,8 @@ class OrdersController extends Controller
             $order->image = $this->setImageUpload($request->image,'img/orders');
         }
 
-        $order->verify == null;
-        $order->reason == null;
+        $order->verify = null;
+        $order->reason = null;
         $order->save();
 
         Alert::success('Bukti transfer Berhasil dikirim, Admin kami akan segera melakukan pengiriman, harap selalu cek email anda','Berhasil')->persistent('tutup');
@@ -255,10 +255,6 @@ class OrdersController extends Controller
             return abort(404);
         }
 
-        if ($order->verify == 1 && $order->status == 1) {
-            return abort(404);
-        }
-
         $title = 'Pembayaran';
         $company = Company::find(1);
         return view('orders.payment',compact('title','company','order'));
@@ -280,7 +276,7 @@ class OrdersController extends Controller
     }
     public function getOrderProcessed()
     {
-        $orders = Order::whereVerify(1)->select('orders.*');
+        $orders = Order::whereVerify(1)->whereStatus(2)->select('orders.*');
         return DataTables::eloquent($orders)
             ->addColumn('tanggal_pemesanan', function ($order)
             {
@@ -312,6 +308,12 @@ class OrdersController extends Controller
         $order->verify = 1;
         $order->status = 2;
         $order->save();
+
+        foreach ($order->products as $detail) {
+            $product = Product::findOrFail($detail->id);
+            $product->stock = $product->stock - $detail->pivot->qty;
+            $product->save();
+        }
 
         try{
             Mail::send('orders.email_approving', [
@@ -357,6 +359,61 @@ class OrdersController extends Controller
         }
 
         Alert::success('Pesanan Berhasil ditolak','Berhasil');
+        return redirect('/dashboard?halaman=pesanan-masuk');
+    }
+
+    public function accepting(Order $order)
+    {
+        $order->status = 1;
+        $order->save();
+
+        $data = '
+                <h1>Terimakasih telah membeli produk kami</h1>
+                <p>kami harap anda memberikan ulasan terhadap produk kami yang anda beli <br> klik link dibawah ini</p>
+        ';
+        foreach ($order->products as $product) {
+            $data .= '<a href="'.route('orders.review',['invoice' => $order->invoice , 'orderProduct' => $product->pivot->order_product_id]).'">'.route('orders.review',['invoice' => $order->invoice , 'orderProduct' => $product->pivot->order_product_id]).'</a><br>';
+        }
+
+        try{
+            Mail::send([], [], function ($message) use ($order, $data) {
+                $message->subject('Berikan ulasan untuk produk kami');
+                $message->from('admin@xylodecoration.com', 'Admin Xylo Decoration');
+                $message->to($order->email)
+                ->setBody($data, 'text/html'); // for HTML rich messages
+
+            });
+        }catch (Exception $e){
+            Alert::error('Email harus valid','Gagal Mengirim email')->persistent('tutup');
+            return back();
+        }
+
+        Alert::success('Terimakasih telah membeli produk dari kami, cek email anda untuk memberikan ulasan terhadap produk kami','Berhasil di terima')->persistent('tutup');
+        return back();
+    }
+
+    public function review($invoice, OrderProduct $orderProduct)
+    {
+        $order = Order::whereInvoice($invoice)->first();
+        if ($order->status != 1) {
+            return abort(404);
+        }
+        $title = 'Ulasan';
+        $company = Company::find(1);
+        return view('orders.review',compact('title','company','orderProduct'));
+    }
+
+    public function updateReview(Request $request ,OrderProduct $orderProduct)
+    {
+        $request->validate([
+            'rating' => ['required']
+        ]);
+
+        $orderProduct->rating = $request->rating;
+        $orderProduct->review = $request->ulasan;
+        $orderProduct->save();
+
+        Alert::success('Ulasan Berhasil dikirim','Berhasil');
         return back();
     }
 }

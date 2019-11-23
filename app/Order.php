@@ -12,6 +12,14 @@ class Order extends Model
     {
         return $this->belongsToMany('App\Product','order_product')
                     ->withPivot('qty')
+                    ->withPivot('rating')
+                    ->withPivot('review')
+                    ->withPivot('order_product_id')
                     ->withTimestamps();
+    }
+
+    public function orderProducts()
+    {
+        return $this->hasMany('App\OrderProduct');
     }
 }

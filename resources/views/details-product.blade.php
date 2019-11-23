@@ -89,7 +89,7 @@
                                 {!! $product->specification !!}
                             </div>
                             <div class="tab-pane fade show" role="tabpanel" id="reviews">
-                                @foreach ($product->reviews as $review)
+                                @foreach ($product->orderProducts as $review)
                                     <div class="reviews">
                                         <div class="review-item">
                                             <div class="rating">
@@ -125,11 +125,10 @@
                                                 <img src="{{asset('img/star.svg')}}">
                                                 @endif
                                             </div>
-                                            <h4 class="font-weight-bold">{{ $review->title }}</h4>
                                             <span class="text-muted">
-                                                <a href="#">{{ $review->name }}</a>, {{ $review->created_at->format('d M Y - H:i:s') }}
+                                                <a href="#">{{ $review->order->name }}</a>, {{ $review->created_at->format('d M Y - H:i:s') }}
                                             </span>
-                                            <p>{{ $review->description }}</p>
+                                            <p>{{ $review->review }}</p>
                                         </div>
                                     </div>
                                 @endforeach

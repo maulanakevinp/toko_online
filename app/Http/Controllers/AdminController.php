@@ -30,7 +30,7 @@ class AdminController extends Controller
     {
         $title = 'Dashboard';
         $orderEntry = Order::whereVerify(null)->count();
-        $orderProcessed = Order::whereVerify(1)->count();
+        $orderProcessed = Order::whereVerify(1)->whereStatus(2)->count();
         $orderFinished = Order::whereStatus(1)->count();
         return view('admin.dashboard', compact('title','orderEntry','orderProcessed','orderFinished'));
     }
