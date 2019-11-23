@@ -18,7 +18,7 @@ Ubah Testimoni - {{ config('app.name') }}
     </div>
     <div class="row mb-3">
         <div class="col-md-6">
-            <div class="card">
+            <div class="card shadow h-100">
                 <div class="card-body">
                     <form action="{{ route('testimonials.update' , $testimonial->id) }}" method="post" enctype="multipart/form-data">
                         @method('patch')
