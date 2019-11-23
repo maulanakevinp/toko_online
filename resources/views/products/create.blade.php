@@ -25,7 +25,7 @@ Tambah Produk - {{ config('app.name')}}
             @endif
         </div>
     </div>
-    <div class="row">
+    <div class="row mb-5">
         <div class="col-lg">
             <div class="card shadow-sm">
                 <div class="card-body">
