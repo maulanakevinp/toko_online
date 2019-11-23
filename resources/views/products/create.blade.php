@@ -120,7 +120,24 @@ Tambah Produk - {{ config('app.name')}}
                             <div class=" form-group col-md">
                                 <label for="specification">Spesifikasi</label>
                                 <textarea class="form-control @error('specification') is-invalid @enderror" name="specification" id="specification"
-                                    rows="5">{{ old('specification') }}</textarea>
+                                    rows="5">{{ old('specification','<div class="table-responsive">
+                                    <table class="table table-bordered table-hover" width="100%" cellspacing="0">
+                                        <tbody>
+                                            <tr>
+                                                <td>Tinggi</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Panjang</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Berat</td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>') }}</textarea>
                                 @error('specification')
                                 <div class="invalid-feedback">
                                     {{ $message }}
