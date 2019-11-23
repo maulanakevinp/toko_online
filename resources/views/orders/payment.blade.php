@@ -77,7 +77,7 @@
                             @else
                                 <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Proses</button></div>
                             @endif
-                            <p class="">Harap melakukan transfer senilai total diatas dan kirim ke rekening kami dibawah ini (Pilih salah satu)</p>
+                            <p class="">Harap melakukan transfer senilai total diatas dan kirim ke rekening kami dibawah ini A.N. Xylo Decoration (Pilih salah satu)</p>
                             <p>BCA : {{ $company->bca }}</p>
                             <p>BNI : {{ $company->bni }}</p>
                         @endif
