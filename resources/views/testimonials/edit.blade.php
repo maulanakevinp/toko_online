@@ -11,11 +11,7 @@ Ubah Testimoni - {{ config('app.name') }}
             <li class="breadcrumb-item active" aria-current="page">Ubah Testimoni</li>
         </ol>
     </nav>
-    <div class="row">
-        <div class="col-lg">
-            <!-- Error Handling -->
-        </div>
-    </div>
+    
     <div class="row mb-3">
         <div class="col-md-6">
             <div class="card shadow h-100">
