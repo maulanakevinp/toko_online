@@ -7,9 +7,9 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800 float-left">Slideshow</h1>
-        <button class="btn btn-primary float-right" data-toggle="modal" data-target="#newImageModal">Tambah Gambar</button>
+    <div class="mb-3">
+        <h1 class="h3 mb-0 text-gray-800 d-inline-block">Slideshow</h1>
+        <button class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#newImageModal">Tambah Gambar</button>
     </div>
 
     <div class="row">
