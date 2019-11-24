@@ -122,6 +122,15 @@
 
     <script>
     $(document).ready(function() {
+        if ($( window ).width() < 500) {
+            $('#page-top').attr('class','sidebar-toggled');
+            $('#accordionSidebar').attr('class','navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled');
+        }
+
+        if ($( window ).width() > 500) {
+            $('#page-top').removeAttr('class');
+            $('#accordionSidebar').attr('class','navbar-nav bg-gradient-primary sidebar sidebar-dark accordion');
+        }
         $(".custom-file-input").on("change", function() {
             var fileName = $(this).val().split("\\").pop();
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);

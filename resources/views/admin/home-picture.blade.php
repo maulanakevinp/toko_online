@@ -7,10 +7,8 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <div class="mb-3">
-        <h1 class="h3 mb-0 text-gray-800 d-inline-block">Slideshow</h1>
-        <button class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#newImageModal">Tambah Gambar</button>
-    </div>
+    <h1 class="h3 mb-0 text-gray-800 mb-2">Slideshow</h1>
+    <button class="btn btn-primary btn-sm mb-4" data-toggle="modal" data-target="#newImageModal">Tambah Gambar</button>
 
     <div class="row">
         @foreach ($company->images as $image)
