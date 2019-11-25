@@ -16,7 +16,7 @@
         @method('patch')
         @csrf
         <div class="row mb-3">
-            <div class="col-lg-6">
+            <div class="col-lg-6 mb-3">
                 <div class="card shadow h-100">
                     <div class="card-header">
                         <h5 class="m-0 pt-1 font-weight-bold text-black-50">Ubah Kontak</h5>
@@ -70,7 +70,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6 mb-3">
                 <div class="card shadow h-100">
                     <div class="card-header">
                         <h5 class="m-0 pt-1 font-weight-bold text-black-50">Ubah Link</h5>
@@ -125,13 +125,13 @@
                 </div>
             </div>
         </div>
-        <div class="card shadow h-100">
+        <div class="card shadow h-100 mb-3">
             <div class="card-header">
                 <h5 class="m-0 pt-1 font-weight-bold text-black-50">Ubah Rekening</h5>
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 mb-3">
                         <div class="form-group">
                             <label for="rekening_bca">Rekening BCA</label>
                             <input type="text" class="form-control @error('rekening_bca') is-invalid @enderror" id="rekening_bca" name="rekening_bca" value="{{ old('rekening_bca',$company->bca)}} ">
@@ -142,7 +142,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 mb-3">
                         <div class="form-group">
                             <label for="rekening_bni">Rekening BNI</label>
                             <input type="text" class="form-control @error('rekening_bni') is-invalid @enderror" id="rekening_bni" name="rekening_bni" value="{{ old('rekening_bni',$company->bni) }}">
@@ -156,7 +156,7 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-3">
+        <div class="row mb-3">
             <div class="col-lg">
                 <div class="card shadow h-100">
                     <div class="card-header">
