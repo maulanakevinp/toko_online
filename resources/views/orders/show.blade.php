@@ -11,73 +11,77 @@ Detail Order - {{ config('app.name') }}
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-6 mb-3">
-                    <table class="table table-sm">
-                        <tbody>
-                            <tr>
-                                <td>Nama</td>
-                                <td>{{ $order->name }}</td>
-                            </tr>
-                            <tr>
-                                <td>Email</td>
-                                <td>{{ $order->email }}</td>
-                            </tr>
-                            <tr>
-                                <td>Nomor Telepon</td>
-                                <td>{{ $order->phone }}</td>
-                            </tr>
-                            <tr>
-                                <td>Alamat</td>
-                                <td>{{ $order->address }}</td>
-                            </tr>
-                            <tr>
-                                <td>Bukti Transfer</td>
-                                <td><a href="" class="btn btn-success btn-sm" data-toggle="modal" data-target="#fileDetail"><i class="fas fa-file-image"></i> File Detail</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <tbody>
+                                <tr>
+                                    <td>Nama</td>
+                                    <td>{{ $order->name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td>{{ $order->email }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Nomor Telepon</td>
+                                    <td>{{ $order->phone }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Alamat</td>
+                                    <td>{{ $order->address }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Bukti Transfer</td>
+                                    <td><a href="" class="btn btn-success btn-sm" data-toggle="modal" data-target="#fileDetail"><i class="fas fa-file-image"></i> File Detail</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="col-lg-6 mb-3">
-                    <table class="table table-sm">
-                        <tbody>
-                            <tr>
-                                <td>Status</td>
-                                <td>
-                                    @if ($order->status == 1)
-                                        Diterima
-                                    @elseif ($order->status == 2)
-                                        Dalam proses pengiriman
-                                    @else
-                                        Belum diproses
-                                    @endif
-                                </td>
-                            </tr>
-                            @if ($order->verify != 1)
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <tbody>
                                 <tr>
-                                    <td>Verifikasi Pesanan</td>
+                                    <td>Status</td>
                                     <td>
-                                        <form class="float-left" action="{{ route('orders.approving', $order) }}" method="post">
-                                            @csrf
-                                            @method('put')
-                                            <button class="btn btn-sm btn-outline-success" type="submit">Terima</button>
-                                        </form>
-                                        <a class="btn btn-sm btn-outline-danger" data-toggle="collapse" href="#declineVerificationModal">Tolak</a>
-                                        <div class="collapse multi-collapse" id="declineVerificationModal">
-                                            <form action="{{ route('orders.rejecting', $order) }}" method="post">
-                                                @csrf
-                                                @method('patch')
-                                                <div class="form-group">
-                                                    <div class="col-form-label">Alasan Penolakan</div>
-                                                    <textarea class="form-control @error('alasan_penolakan') is-invalid @enderror" name="alasan_penolakan" id="alasan_penolakan" rows="2">{{ old('alasan_penolakan', $order->reason) }}</textarea>
-                                                    @error('alasan_penolakan') <div class="invalid-feedback"> {{ $message }} </div> @enderror
-                                                </div>
-                                                <button class="btn btn-primary btn-sm" type="submit">Verifikasi</button>
-                                            </form>
-                                        </div>
+                                        @if ($order->status == 1)
+                                            Diterima
+                                        @elseif ($order->status == 2)
+                                            Dalam proses pengiriman
+                                        @else
+                                            Belum diproses
+                                        @endif
                                     </td>
                                 </tr>
-                            @endif
-                        </tbody>
-                    </table>
+                                @if ($order->verify != 1)
+                                    <tr>
+                                        <td>Verifikasi Pesanan</td>
+                                        <td>
+                                            <form class="float-left" action="{{ route('orders.approving', $order) }}" method="post">
+                                                @csrf
+                                                @method('put')
+                                                <button class="btn btn-sm btn-outline-success" type="submit">Terima</button>
+                                            </form>
+                                            <a class="btn btn-sm btn-outline-danger" data-toggle="collapse" href="#declineVerificationModal">Tolak</a>
+                                            <div class="collapse multi-collapse" id="declineVerificationModal">
+                                                <form action="{{ route('orders.rejecting', $order) }}" method="post">
+                                                    @csrf
+                                                    @method('patch')
+                                                    <div class="form-group">
+                                                        <div class="col-form-label">Alasan Penolakan</div>
+                                                        <textarea class="form-control @error('alasan_penolakan') is-invalid @enderror" name="alasan_penolakan" id="alasan_penolakan" rows="2">{{ old('alasan_penolakan', $order->reason) }}</textarea>
+                                                        @error('alasan_penolakan') <div class="invalid-feedback"> {{ $message }} </div> @enderror
+                                                    </div>
+                                                    <button class="btn btn-primary btn-sm" type="submit">Verifikasi</button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
