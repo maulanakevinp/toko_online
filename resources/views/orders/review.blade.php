@@ -11,7 +11,9 @@
                 <div class="col-lg-6">
                     <div class="card shadow h-100">
                         <div class="card-header">
-                            <h5 class="m-0 pt-1 font-weight-bold text-black-50">{{ $orderProduct->product->name }}</h5>
+                            <a href="{{ route('details-product', ['id' => $orderProduct->product->id, 'name' => strtolower(str_replace(' ','-',$orderProduct->product->name))] )}}">
+                                <h5 class="m-0 pt-1 font-weight-bold text-black-50" data-toogle="tooltip" title="{{ $orderProduct->product->name }}">{{ $orderProduct->product->name }}</h5>
+                            </a>
                         </div>
                         <form action="{{ route('orders.update_review',$orderProduct) }}" method="post">
                         @csrf @method('put')

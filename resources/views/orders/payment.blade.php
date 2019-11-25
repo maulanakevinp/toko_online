@@ -29,7 +29,9 @@
                         @foreach ($order->products as $orderProduct)
                             <div class="row">
                                 <div class="col-md-7">
-                                    <p class="item-description">{{ $orderProduct->name }}</p>
+                                    <a href="{{ route('details-product', ['id' => $orderProduct->id, 'name' => strtolower(str_replace(' ','-',$orderProduct->name))] )}}">
+                                        <p class="item-description" data-toogle="tooltip" title="{{ $orderProduct->name }}">{{ $orderProduct->name }}</p>
+                                    </a>
                                 </div>
                                 <div class="col-md-1">
                                     <p class="item-description">{{ $orderProduct->pivot->qty }}</p>
