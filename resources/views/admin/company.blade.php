@@ -164,7 +164,7 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="Maps">Maps</label> <a target="_blank" href="https://drive.google.com/file/d/1sh6od2RsqPijyiu6md2TrHnVUzUWIM3L/view?usp=sharing">Tutorial klik disini</a>
+                            <label for="Maps">Maps</label> <a target="_blank" href="{{ asset('video/tutorial_maps.mp4') }}">Tutorial klik disini</a>
                             <textarea class="form-control @error('maps') is-invalid @enderror" name="maps" id="maps" rows="5">{{ old('maps',$company->maps) }}</textarea>
                             @error('maps')
                             <div class="invalid-feedback">
