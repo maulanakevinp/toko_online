@@ -28,12 +28,12 @@ class TypeController extends Controller
     public function store(Request $request, $category)
     {
         $request->validate([
-            'type' => 'required'
+            'jenis' => 'required'
         ]);
 
         Type::create([
             'category_id' => $category,
-            'type' => $request->type
+            'type' => $request->jenis
         ]);
 
         Alert::success('Jenis berhasil ditambahkan', 'berhasil');
@@ -50,10 +50,10 @@ class TypeController extends Controller
     public function update(Request $request, $id, $category)
     {
         $request->validate([
-            'type' => 'required'
+            'jenis' => 'required'
         ]);
 
-        Type::where('id', $id)->update(['type' => $request->type]);
+        Type::where('id', $id)->update(['type' => $request->jenis]);
 
         Alert::success('Jenis berhasil diperbarui', 'berhasil');
         return redirect()->back();
